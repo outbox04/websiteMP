@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sản phẩm - Mega Power Solar</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#002147;--navy-light:#0a2d5e;--navy-mid:#003366;
+  --orange:#FF8C00;--orange-dark:#e07a00;--orange-glow:rgba(255,140,0,0.35);
+  --white:#fff;--gray-100:#f5f7fa;--gray-200:#e8ecf1;--gray-500:#8a9ab0;
+  --text-dark:#0a1628;--text-body:#3d5273;
+  --glass:rgba(255,255,255,0.08);--glass-border:rgba(255,255,255,0.15);
+  --radius:16px;--font:'Montserrat',sans-serif;
+}
+body{font-family:var(--font);background:var(--gray-100);color:var(--text-dark);line-height:1.6}
+
+/* REUSE HEADER & FOOTER STYLES FROM ORIGINAL */
+.header{position:fixed;top:0;left:0;right:0;height:80px;background:rgba(0,33,71,0.95);backdrop-filter:blur(12px);z-index:1000;display:flex;align-items:center;padding:0 5%;border-bottom:1px solid var(--glass-border)}
+.logo{font-size:1.8rem;font-weight:900;color:var(--white);text-decoration:none}
+.logo span{color:var(--orange)}
+.nav{margin-left:auto;display:flex;gap:30px}
+.nav a{color:var(--white);text-decoration:none;font-weight:600;font-size:0.9rem;transition:0.3s}
+.nav a:hover{color:var(--orange)}
+.btn-partner{background:var(--orange);color:var(--white)!important;padding:10px 20px;border-radius:50px;box-shadow:0 4px 15px var(--orange-glow)}
+
+/* NEW: PRODUCT HERO & BREADCRUMB */
+.product-hero{background:var(--navy);padding:140px 5% 60px;color:var(--white);text-align:center}
+.product-hero h1{font-size:2.5rem;font-weight:800;margin-bottom:10px}
+.breadcrumb{font-size:0.9rem;color:var(--gray-500)}
+.breadcrumb span{color:var(--orange)}
+
+/* MAIN LAYOUT */
+.product-container{display:grid;grid-template-columns:280px 1fr;gap:30px;padding:50px 5%;max-width:1400px;margin:0 auto}
+
+/* SIDEBAR FILTER */
+.sidebar{background:var(--white);padding:25px;border-radius:var(--radius);height:fit-content;position:sticky;top:100px;box-shadow:0 5px 20px rgba(0,0,0,0.03)}
+.filter-group{margin-bottom:30px}
+.filter-title{font-weight:700;font-size:1rem;color:var(--navy);margin-bottom:15px;display:flex;justify-content:space-between;align-items:center}
+.filter-list{list-style:none}
+.filter-item{margin-bottom:10px;display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.95rem;color:var(--text-body)}
+.filter-item input[type="checkbox"]{accent-color:var(--orange);width:18px;height:18px}
+
+/* PRODUCT GRID */
+.grid-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:25px}
+
+/* PRODUCT CARD */
+.product-card{background:var(--white);border-radius:var(--radius);overflow:hidden;transition:0.4s;border:1px solid var(--gray-200);position:relative}
+.product-card:hover{transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,33,71,0.1);border-color:var(--orange)}
+.product-img{width:100%;height:240px;background:#f9fafb;display:flex;align-items:center;justify-content:center;position:relative;padding:20px}
+.product-img img{max-width:100%;max-height:100%;object-fit:contain}
+.stock-tag{position:absolute;top:15px;left:15px;background:#27ae60;color:white;padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:600}
+
+.product-info{padding:20px}
+.brand-label{font-size:0.75rem;font-weight:700;color:var(--orange);text-transform:uppercase;margin-bottom:5px;display:block}
+.product-name{font-weight:700;color:var(--navy);font-size:1.1rem;margin-bottom:12px;height:2.8rem;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.product-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;border-top:1px solid var(--gray-200);padding-top:15px}
+.spec-item{font-size:0.8rem;color:var(--gray-500);display:flex;align-items:center;gap:5px}
+
+.card-actions{display:flex;gap:10px}
+.btn-datasheet{flex:1;padding:10px;border:1px solid var(--navy);color:var(--navy);border-radius:8px;font-size:0.8rem;font-weight:700;text-align:center;text-decoration:none;transition:0.3s}
+.btn-datasheet:hover{background:var(--navy);color:white}
+.btn-quote{flex:1;padding:10px;background:var(--orange);color:white;border-radius:8px;font-size:0.8rem;font-weight:700;text-align:center;text-decoration:none;transition:0.3s}
+.btn-quote:hover{background:var(--orange-dark)}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:1024px){
+  .product-container{grid-template-columns:1fr}
+  .sidebar{display:none} /* Ẩn sidebar trên mobile, cần thêm nút Filter popup sau */
+  .product-hero h1{font-size:2rem}
+}
+
+/* FOOTER (REUSE) */
+.footer{background:var(--navy);color:var(--white);padding:80px 5% 30px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:50px;max-width:1400px;margin:0 auto}
+.footer-bottom{margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,255,255,0.1);text-align:center;font-size:0.85rem;color:var(--gray-500)}
+
+/* FLOATING MOBILE FILTER */
+.mobile-filter-btn{display:none;position:fixed;bottom:90px;right:20px;background:var(--navy);color:white;padding:15px 25px;border-radius:50px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:99;font-weight:700;border:none}
+@media(max-width:1024px){ .mobile-filter-btn{display:flex;align-items:center;gap:10px} }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="#" class="logo">MEGA<span>POWER</span></a>
+  <nav class="nav">
+    <a href="mega_power_landing_page.html">Trang chủ</a>
+    <a href="#" style="color:var(--orange)">Sản phẩm</a>
+    <a href="#">Giải pháp B2B</a>
+    <a href="#">Hỗ trợ kỹ thuật</a>
+    <a href="#" class="btn-partner">Trở thành Đại lý</a>
+  </nav>
+</header>
+
+<section class="product-hero">
+  <h1>THIẾT BỊ NĂNG LƯỢNG MẶT TRỜI</h1>
+  <div class="breadcrumb">Trang chủ / <span>Sản phẩm</span></div>
+</section>
+
+<div class="product-container">
+  <aside class="sidebar">
+    <div class="filter-group">
+      <div class="filter-title">THƯƠNG HIỆU <span>−</span></div>
+      <ul class="filter-list">
+        <li class="filter-item"><input type="checkbox"> Growatt</li>
+        <li class="filter-item"><input type="checkbox"> Huawei</li>
+        <li class="filter-item"><input type="checkbox"> Deye</li>
+        <li class="filter-item"><input type="checkbox"> Canadian Solar</li>
+        <li class="filter-item"><input type="checkbox"> Longi Solar</li>
+      </ul>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-title">DANH MỤC <span>−</span></div>
+      <ul class="filter-list">
+        <li class="filter-item"><input type="checkbox"> Inverter Hòa Lưới</li>
+        <li class="filter-item"><input type="checkbox"> Inverter Hybrid</li>
+        <li class="filter-item"><input type="checkbox"> Pin Lưu Trữ Lithium</li>
+        <li class="filter-item"><input type="checkbox"> Tấm Pin Năng Lượng</li>
+      </ul>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-title">CÔNG SUẤT <span>−</span></div>
+      <ul class="filter-list">
+        <li class="filter-item"><input type="checkbox"> 3kW - 5kW</li>
+        <li class="filter-item"><input type="checkbox"> 6kW - 12kW</li>
+        <li class="filter-item"><input type="checkbox"> 15kW - 30kW</li>
+        <li class="filter-item"><input type="checkbox"> Trên 50kW</li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="grid-header">
+      <p style="color:var(--gray-500)">Hiển thị <b>1-12</b> trong 48 sản phẩm</p>
+      <select style="padding:8px 15px; border-radius:8px; border:1px solid var(--gray-200); font-family:var(--font)">
+        <option>Mới nhất</option>
+        <option>Giá: Thấp đến Cao</option>
+        <option>Phổ biến nhất</option>
+      </select>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-img">
+          <span class="stock-tag">Sẵn kho</span>
+          <img src="https://via.placeholder.com/200x200?text=Inverter+Growatt" alt="Sản phẩm">
+        </div>
+        <div class="product-info">
+          <span class="brand-label">Growatt</span>
+          <h3 class="product-name">Inverter Hybrid Growatt 5kW - SPH5000 TL3-BH-UP</h3>
+          <div class="product-specs">
+            <div class="spec-item">⚡ 5000W</div>
+            <div class="spec-item">🔋 48V / High Voltage</div>
+            <div class="spec-item">🌐 Wi-Fi/GPRS</div>
+            <div class="spec-item">🛡️ Bảo hành 5 năm</div>
+          </div>
+          <div class="card-actions">
+            <a href="#" class="btn-datasheet">Datasheet</a>
+            <a href="#" class="btn-quote">Giá sỉ</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+          <span class="stock-tag">S
