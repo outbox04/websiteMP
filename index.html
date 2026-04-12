@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mega Power – Tổng Kho Thiết Bị Điện Mặt Trời B2B</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #002147;
+    --navy-80: rgba(0,33,71,0.85);
+    --navy-60: rgba(0,33,71,0.6);
+    --orange: #FF8C00;
+    --orange-20: rgba(255,140,0,0.2);
+    --orange-40: rgba(255,140,0,0.4);
+    --white: #ffffff;
+    --gray-light: #f4f6f9;
+    --gray-mid: #c8d0dc;
+    --font-head: 'Montserrat', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --radius: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+  /* ═══════════════════════════════
+     HEADER
+  ═══════════════════════════════ */
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 20px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease;
+  }
+  #header.scrolled {
+    background: var(--navy-80);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    padding: 14px 5%;
+    border-bottom: 1px solid rgba(255,140,0,0.15);
+  }
+  .logo {
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: 1.6rem;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--orange);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 900; color: var(--white);
+  }
+  .logo span { color: var(--orange); }
+
+  nav { display: flex; align-items: center; gap: 36px; }
+  nav a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    position: relative;
+    padding-bottom: 4px;
+  }
+  nav a::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--orange);
+    transition: width 0.3s ease;
+  }
+  nav a:hover::after { width: 100%; }
+  nav a:hover { color: var(--white); }
+
+  .btn-dealer {
+    position: relative;
+    padding: 10px 22px;
+    background: transparent;
+    border: 1.5px solid var(--orange);
+    border-radius: 8px;
+    color: var(--orange);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.3s;
+  }
+  .btn-dealer::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 10px;
+    background: conic-gradient(from var(--angle, 0deg), transparent 20%, var(--orange) 40%, transparent 60%);
+    animation: border-glow 2.5s linear infinite;
+    z-index: -1;
+  }
+  .btn-dealer::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px;
+    background: var(--navy);
+    border-radius: 7px;
+    z-index: -1;
+    transition: background 0.3s;
+  }
+  .btn-dealer:hover { color: var(--white); }
+  .btn-dealer:hover::after { background: var(--orange); }
+
+  @property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+  @keyframes border-glow {
+    to { --angle: 360deg; }
+  }
+
+  /* ═══════════════════════════════
+     HERO
+  ═══════════════════════════════ */
+  #hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,140,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,140,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,140,0,0.12) 0%, transparent 70%);
+    right: -100px; top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .hero-text { position: relative; z-index: 2; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,140,0,0.1);
+    border: 1px solid rgba(255,140,0,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--orange);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-badge-dot {
+    width: 6px; height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .hero-headline {
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .hero-headline .word {
+    display: inline-block;
+    transform: translateY(100%);
+    opacity: 0;
+    animation: word-reveal 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+    margin-right: 12px;
+  }
+  .hero-headline .accent { color: var(--orange); }
+
+  @keyframes word-reveal {
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    max-width: 480px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fade-up 0.8s 1s ease forwards;
+  }
+  .hero-ctas {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    opacity: 0;
+    animation: fade-up 0.8s 1.2s ease forwards;
+  }
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--orange);
+    border: none;
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,140,0,0.4); }
+  .btn-ghost {
+    padding: 14px 32px;
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--orange); background: rgba(255,140,0,0.05); }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-image-wrap {
+    position: relative; z-index: 2;
+    display: flex; justify-content: center; align-items: center;
+  }
+  .hero-visual {
+    position: relative;
+    width: 100%; max-width: 520px;
+    opacity: 0;
+    animation: fade-up 1s 0.5s ease forwards;
+  }
+  .hero-card-glass {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card-glass::before {
+    content: '';
+    position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(from 0deg at 50% 50%, transparent 60%, rgba(255,140,0,0.05) 70%, transparent 80%);
+    animation: rotate-bg 8s linear infinite;
+  }
+  @keyframes rotate-bg {
+    to { transform: rotate(360deg); }
+  }
+  .product-showcase {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    position: relative; z-index: 1;
+  }
+  .product-mini-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+  }
+  .product-mini-card:hover { transform: translateY(-4px); border-color: var(--orange); }
+  .product-mini-card .pmc-icon { font-size: 2.2rem; margin-bottom: 10px; }
+  .product-mini-card .pmc-name {
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .product-mini-card .pmc-count {
+    font-size: 0.72rem;
+    color: var(--orange);
+    font-weight: 600;
+  }
+  .product-mini-card.span2 { grid-column: 1 / -1; }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fade-up 1s 1.5s ease forwards;
+  }
+  .mouse-icon {
+    width: 24px; height: 38px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    position: relative;
+    animation: float-bounce 2s ease-in-out infinite;
+  }
+  .mouse-wheel {
+    width: 3px; height: 7px;
+    background: var(--orange);
+    border-radius: 2px;
+    position: absolute;
+    top: 6px; left: 50%;
+    transform: translateX(-50%);
+    animation: scroll-wheel 2s ease-in-out infinite;
+  }
+  @keyframes float-bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes scroll-wheel {
+    0% { opacity: 1; top: 6px; }
+    100% { opacity: 0; top: 20px; }
+  }
+
+  /* ═══════════════════════════════
+     TRUST COUNTER
+  ═══════════════════════════════ */
+  #trust {
+    background: var(--navy);
+    padding: 80px 5%;
+    border-top: 1px solid rgba(255,140,0,0.1);
+    border-bottom: 1px solid rgba(255,140,0,0.1);
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,140,0,0.1);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .trust-item {
+    background: var(--navy);
+    padding: 44px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .trust-item::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,140,0,0.03), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .trust-item:hover::before { opacity: 1; }
+  .trust-icon {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+    display: block;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.5s, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .trust-icon.popped { opacity: 1; transform: scale(1); }
+  .trust-number {
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: 3rem;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .trust-label {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  /* ═══════════════════════════════
+     PRODUCTS
+  ═══════════════════════════════ */
+  #products {
+    padding: 100px 5%;
+    background: var(--gray-light);
+  }
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-weight: 900;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    color: var(--navy);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1rem;
+    color: #5a6880;
+    max-width: 540px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .product-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(0,33,71,0.08);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.35s ease;
+  }
+  .product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 24px 60px rgba(0,33,71,0.18);
+  }
+  .product-img-wrap {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #e8eef6, #d0dcea);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .product-emoji { font-size: 5rem; transition: transform 0.35s ease; }
+  .product-card:hover .product-emoji { transform: scale(1.1); }
+
+  .product-overlay {
+    position: absolute; inset: 0;
+    background: rgba(255,140,0,0.88);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .product-card:hover .product-overlay { opacity: 1; }
+  .overlay-btn {
+    padding: 10px 24px;
+    background: var(--white);
+    border: none; border-radius: 8px;
+    color: var(--orange);
+    font-family: var(--font-head);
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    width: 170px; text-align: center;
+    text-decoration: none; display: block;
+    transition: background 0.2s, color 0.2s;
+  }
+  .overlay-btn:hover { background: var(--navy); color: var(--white); }
+  .overlay-btn.ghost {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.7);
+    color: var(--white);
+  }
+  .overlay-btn.ghost:hover { background: rgba(255,255,255,0.15); }
+
+  .product-info { padding: 24px; }
+  .product-cat {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
+  }
+  .product-name {
+    font-family: var(--font-head);
+    font-weight: 700; font-size: 1.1rem;
+    color: var(--navy); margin-bottom: 8px;
+  }
+  .product-specs { font-size: 0.83rem; color: #6b7a8d; line-height: 1.6; margin-bottom: 16px; }
+  .product-price {
+    font-family: var(--font-head);
+    font-weight: 900; font-size: 1.3rem; color: var(--navy);
+  }
+  .product-price span { font-size: 0.8rem; color: #6b7a8d; font-weight: 400; margin-left: 4px; }
+
+  /* ═══════════════════════════════
+     SUPPORT TABS
+  ═══════════════════════════════ */
+  #support {
+    padding: 100px 5%;
+    background: var(--navy);
+    position: relative; overflow: hidden;
+  }
+  #support .section-title { color: var(--white); }
+  #support .section-sub { color: rgba(255,255,255,0.55); }
+  .support-bg-accent {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,140,0,0.08) 0%, transparent 70%);
+    right: 0; bottom: -100px;
+    pointer-events: none;
+  }
+
+  .tabs-nav {
+    display: flex; gap: 4px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 6px;
+    width: fit-content;
+    margin-bottom: 40px;
+  }
+  .tab-btn {
+    padding: 10px 24px;
+    background: transparent;
+    border: none; border-radius: 8px;
+    color: rgba(255,255,255,0.5);
+    font-family: var(--font-head);
+    font-weight: 600; font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .tab-btn.active {
+    background: var(--orange);
+    color: var(--white);
+  }
+  .tab-btn svg { width: 16px; height: 16px; stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset 0.5s ease; }
+  .tab-btn.active svg { stroke-dashoffset: 0; }
+
+  .tab-content-wrap { position: relative; min-height: 320px; overflow: hidden; }
+  .tab-panel {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+  }
+  .tab-panel.active {
+    opacity: 1; transform: translateX(0);
+    position: relative; pointer-events: auto;
+  }
+  .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .support-card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  .support-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+  .support-card-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+  .support-card-title { font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; color: var(--white); margin-bottom: 8px; }
+  .support-card-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+  .support-card-tag {
+    display: inline-block; margin-top: 14px;
+    padding: 4px 12px; border-radius: 100px;
+    background: rgba(255,140,0,0.15); color: var(--orange);
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;
+  }
+
+  /* ═══════════════════════════════
+     PARTNER ROADMAP
+  ═══════════════════════════════ */
+  #roadmap {
+    padding: 100px 5%;
+    background: var(--white);
+  }
+  .roadmap-wrap {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 60px;
+  }
+  .roadmap-line-track {
+    position: absolute;
+    top: 30px; left: calc(12.5%);
+    right: calc(12.5%);
+    height: 3px;
+    background: rgba(0,33,71,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .roadmap-line-fill {
+    height: 100%; width: 0;
+    background: var(--orange);
+    border-radius: 2px;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(255,140,0,0.5);
+  }
+  .roadmap-step {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 0 10px;
+  }
+  .step-circle {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    border: 3px solid rgba(0,33,71,0.15);
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head);
+    font-weight: 900; font-size: 1.2rem;
+    color: rgba(0,33,71,0.3);
+    margin-bottom: 24px;
+    position: relative; z-index: 2;
+    transition: border-color 0.4s, color 0.4s, box-shadow 0.4s;
+  }
+  .roadmap-step.lit .step-circle {
+    border-color: var(--orange);
+    color: var(--orange);
+    box-shadow: 0 0 20px rgba(255,140,0,0.4);
+  }
+  .step-title {
+    font-family: var(--font-head); font-weight: 700; font-size: 0.95rem;
+    color: rgba(0,33,71,0.35); margin-bottom: 8px;
+    transition: color 0.4s;
+  }
+  .roadmap-step.lit .step-title { color: var(--navy); }
+  .step-desc { font-size: 0.82rem; color: rgba(0,33,71,0.45); line-height: 1.6; transition: color 0.4s; }
+  .roadmap-step.lit .step-desc { color: #5a6880; }
+
+  /* ═══════════════════════════════
+     CTA
+  ═══════════════════════════════ */
+  #cta {
+    padding: 120px 5%;
+    background: var(--navy);
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-glow-tl {
+    position: absolute; top: -120px; left: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,140,0,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .cta-glow-br {
+    position: absolute; bottom: -120px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,140,0,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  #cta .section-title { color: var(--white); font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 20px; }
+  #cta .section-sub { color: rgba(255,255,255,0.55); margin: 0 auto 50px; text-align: center; max-width: 560px; }
+
+  .magnetic-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+  .btn-magnetic {
+    position: relative;
+    padding: 18px 48px;
+    background: var(--orange);
+    border: none; border-radius: 12px;
+    color: var(--white);
+    font-family: var(--font-head);
+    font-weight: 900; font-size: 1rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    text-transform: uppercase;
+  }
+  .btn-magnetic:hover {
+    box-shadow: 0 20px 50px rgba(255,140,0,0.5);
+  }
+
+  .cta-note {
+    margin-top: 20px;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.35);
+  }
+  .cta-logos {
+    display: flex; align-items: center; justify-content: center; gap: 32px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+  }
+  .partner-logo-pill {
+    padding: 8px 24px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 100px;
+    font-family: var(--font-head);
+    font-weight: 700; font-size: 0.82rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1px;
+  }
+
+  /* ═══════════════════════════════
+     FOOTER
+  ═══════════════════════════════ */
+  footer {
+    background: #001530;
+    padding: 60px 5% 40px;
+    border-top: 1px solid rgba(255,140,0,0.08);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.75; margin-top: 14px; max-width: 280px; }
+  .footer-col h4 {
+    font-family: var(--font-head); font-weight: 700; font-size: 0.82rem;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--orange); margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul li a { font-size: 0.85rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--white); }
+
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+  .social-links { display: flex; gap: 12px; }
+  .social-btn {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, transform 0.4s ease;
+    text-decoration: none;
+  }
+  .social-btn:hover { background: var(--orange); color: var(--white); transform: rotate(360deg); }
+
+  /* ═══════════════════════════════
+     UTILITIES
+  ═══════════════════════════════ */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 1024px) {
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .support-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; text-align: center; }
+    .hero-ctas { justify-content: center; }
+    .hero-sub { margin: 0 auto 40px; }
+    .hero-image-wrap { display: none; }
+    nav { display: none; }
+    .product-grid { grid-template-columns: 1fr; }
+    .trust-grid { grid-template-columns: 1fr 1fr; }
+    .roadmap-wrap { flex-direction: column; align-items: center; gap: 40px; }
+    .roadmap-line-track { display: none; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .support-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header id="header">
+  <a href="#" class="logo">
+    <div class="logo-icon">M</div>
+    Mega<span>Power</span>
+  </a>
+  <nav>
+    <a href="#products">Sản phẩm</a>
+    <a href="#support">Hỗ trợ kỹ thuật</a>
+    <a href="#roadmap">Đại lý</a>
+    <a href="#trust">Về chúng tôi</a>
+  </nav>
+  <a href="#cta" class="btn-dealer">Trở thành đại lý</a>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-text">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Tổng kho B2B · Toàn quốc
+    </div>
+    <h1 class="hero-headline" id="heroHeadline"></h1>
+    <p class="hero-sub">Phân phối sỉ Inverter, Tấm Pin, Pin Lithium chính hãng. Hỗ trợ kỹ thuật 24/7, giao hàng toàn quốc trong 48 giờ. Đối tác tin cậy của hơn 2.000 đại lý.</p>
+    <div class="hero-ctas">
+      <a href="#products" class="btn-primary">Xem báo giá sỉ</a>
+      <a href="#support" class="btn-ghost">Tài liệu kỹ thuật</a>
+    </div>
+  </div>
+
+  <div class="hero-image-wrap">
+    <div class="hero-visual">
+      <div class="hero-card-glass">
+        <div class="product-showcase">
+          <div class="product-mini-card">
+            <div class="pmc-icon">⚡</div>
+            <div class="pmc-name">Inverter</div>
+            <div class="pmc-count">48 SKU</div>
+          </div>
+          <div class="product-mini-card">
+            <div class="pmc-icon">☀️</div>
+            <div class="pmc-name">Tấm Pin</div>
+            <div class="pmc-count">62 SKU</div>
+          </div>
+          <div class="product-mini-card">
+            <div class="pmc-icon">🔋</div>
+            <div class="pmc-name">Pin Lithium</div>
+            <div class="pmc-count">27 SKU</div>
+          </div>
+          <div class="product-mini-card">
+            <div class="pmc-icon">🔌</div>
+            <div class="pmc-name">Phụ kiện</div>
+            <div class="pmc-count">130 SKU</div>
+          </div>
+        </div>
+        <div style="margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-size:0.78rem; color:rgba(255,255,255,0.4);">Giá cập nhật</div>
+          <div style="font-size:0.78rem; color:var(--orange); font-weight:700;">● Live · Hôm nay</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="mouse-icon"><div class="mouse-wheel"></div></div>
+    Cuộn xuống
+  </div>
+</section>
+
+<!-- ═══ TRUST COUNTER ═══ -->
+<section id="trust">
+  <div class="trust-grid">
+    <div class="trust-item">
+      <span class="trust-icon" data-delay="0">🏭</span>
+      <span class="trust-number" data-target="2000" data-suffix="+">0</span>
+      <span class="trust-label">Đại lý tin tưởng</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon" data-delay="100">📦</span>
+      <span class="trust-number" data-target="50000" data-suffix="+">0</span>
+      <span class="trust-label">Đơn hàng hoàn thành</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon" data-delay="200">⚡</span>
+      <span class="trust-number" data-target="500" data-suffix="MW">0</span>
+      <span class="trust-label">Công suất lắp đặt</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-icon" data-delay="300">🛡️</span>
+      <span class="trust-number" data-target="12" data-suffix=" năm">0</span>
+      <span class="trust-label">Kinh nghiệm phân phối</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRODUCTS ═══ -->
+<section id="products">
+  <div class="reveal">
+    <div class="section-tag">Danh mục sản phẩm</div>
+    <h2 class="section-title">Thiết bị chính hãng,<br>giá sỉ tốt nhất</h2>
+    <p class="section-sub">Kho hàng thực tế 5,000m² tại TP.HCM — đặt hàng trước 16h, giao trong ngày. Bảo hành chính hãng, cam kết giá sỉ ổn định theo quý.</p>
+  </div>
+
+  <div class="product-grid">
+    <div class="product-card reveal">
+      <div class="product-img-wrap">
+        <div class="product-emoji">⚡</div>
+        <div class="product-overlay">
+          <a href="#" class="overlay-btn">Xem giá sỉ</a>
+          <a href="#" class="overlay-btn ghost">Tải Datasheet</a>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Inverter</div>
+        <div class="product-name">Deye Hybrid 5–50kW</div>
+        <div class="product-specs">MPPT đôi · WiFi/4G tích hợp · Bảo hành 10 năm<br>Xuất xứ: Deye, Growatt, SMA</div>
+        <div class="product-price">Liên hệ báo giá <span>· Giá sỉ từ 20 bộ</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal" style="transition-delay:0.1s">
+      <div class="product-img-wrap">
+        <div class="product-emoji">☀️</div>
+        <div class="product-overlay">
+          <a href="#" class="overlay-btn">Xem giá sỉ</a>
+          <a href="#" class="overlay-btn ghost">Tải Datasheet</a>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Tấm Pin Quang Điện</div>
+        <div class="product-name">Mono PERC/TOPCon 400–700W</div>
+        <div class="product-specs">Hiệu suất 21–23% · Bền vững 25 năm<br>Trina, JA Solar, Longi, Risen</div>
+        <div class="product-price">Liên hệ báo giá <span>· Giá sỉ từ 50 tấm</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal" style="transition-delay:0.2s">
+      <div class="product-img-wrap">
+        <div class="product-emoji">🔋</div>
+        <div class="product-overlay">
+          <a href="#" class="overlay-btn">Xem giá sỉ</a>
+          <a href="#" class="overlay-btn ghost">Tải Datasheet</a>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Pin Lưu Trữ Lithium</div>
+        <div class="product-name">LiFePO4 5–100kWh</div>
+        <div class="product-specs">BMS tích hợp · 6,000+ chu kỳ · IP65<br>Pylontech, BYD, Dyness</div>
+        <div class="product-price">Liên hệ báo giá <span>· Giá sỉ từ 5 bộ</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SUPPORT TABS ═══ -->
+<section id="support">
+  <div class="support-bg-accent"></div>
+  <div class="reveal">
+    <div class="section-tag">Hỗ trợ kỹ thuật B2B</div>
+    <h2 class="section-title">Tài nguyên dành riêng<br>cho đại lý & thợ lắp đặt</h2>
+    <p class="section-sub">Kho tài liệu độc quyền, video hướng dẫn chi tiết và phần mềm thiết kế hệ thống — miễn phí cho đối tác.</p>
+  </div>
+
+  <div class="tabs-nav">
+    <button class="tab-btn active" data-tab="docs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>
+      Tài liệu
+    </button>
+    <button class="tab-btn" data-tab="video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="23 7 16 12 23 17 23 7"/>
+        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+      </svg>
+      Video hướng dẫn
+    </button>
+    <button class="tab-btn" data-tab="software">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      Phần mềm
+    </button>
+  </div>
+
+  <div class="tab-content-wrap">
+    <div class="tab-panel active" id="tab-docs">
+      <div class="support-grid">
+        <div class="support-card">
+          <span class="support-card-icon">📋</span>
+          <div class="support-card-title">Datasheet kỹ thuật</div>
+          <div class="support-card-desc">Thông số chi tiết, đường cong I-V, hướng dẫn lắp đặt cho tất cả sản phẩm trong kho.</div>
+          <span class="support-card-tag">500+ tài liệu</span>
+        </div>
+        <div class="support-card">
+          <span class="support-card-icon">⚙️</span>
+          <div class="support-card-title">Hướng dẫn cài đặt</div>
+          <div class="support-card-desc">Quy trình thiết lập nhanh, cài đặt thông số bảo vệ, ghép nối pin với inverter.</div>
+          <span class="support-card-tag">Cập nhật mới nhất</span>
+        </div>
+        <div class="support-card">
+          <span class="support-card-icon">📐</span>
+          <div class="support-card-title">Bảng tính thiết kế</div>
+          <div class="support-card-desc">Template Excel tính toán tải, số tấm pin, dung lượng pin lưu trữ, ROI cho khách hàng.</div>
+          <span class="support-card-tag">Tải ngay</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-video">
+      <div class="support-grid">
+        <div class="support-card">
+          <span class="support-card-icon">▶️</span>
+          <div class="support-card-title">Lắp đặt Inverter Hybrid</div>
+          <div class="support-card-desc">Video step-by-step chi tiết từ đấu dây, cài app đến commissioning hệ thống hoàn chỉnh.</div>
+          <span class="support-card-tag">42 video</span>
+        </div>
+        <div class="support-card">
+          <span class="support-card-icon">🎓</span>
+          <div class="support-card-title">Khóa học online</div>
+          <div class="support-card-desc">Chứng chỉ đại lý Mega Power, khóa học kỹ thuật lắp đặt solar cơ bản đến nâng cao.</div>
+          <span class="support-card-tag">Miễn phí đại lý</span>
+        </div>
+        <div class="support-card">
+          <span class="support-card-icon">🔧</span>
+          <div class="support-card-title">Troubleshooting</div>
+          <div class="support-card-desc">Video xử lý lỗi phổ biến: mã lỗi inverter, vấn đề kết nối pin, cân bằng tải lưới.</div>
+          <span class="support-card-tag">Mới thêm hàng tuần</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-software">
+      <div class="support-grid">
+        <div class="support-card">
+          <span class="support-card-icon">💻</span>
+          <div class="support-card-title">SolarDesign Pro</div>
+          <div class="support-card-desc">Phần mềm thiết kế hệ thống solar mặt trời, xuất bản vẽ kỹ thuật và báo giá tự động.</div>
+          <span class="support-card-tag">Bản quyền đại lý</span>
+        </div>
+        <div class="support-card">
+          <span class="support-card-icon">📊</span>
+          <div class="support-card-title">Portal quản lý đơn hàng</div>
+          <div class="support-card-desc">Theo dõi tồn kho real-time, đặt hàng nhanh, xuất hóa đơn và báo cáo doanh thu.</div>
+          <span class="support-card-tag">24/7</span>
+        </div>
+        <div class="support-card">
+          <span class="support-card-icon">📱</span>
+          <div class="support-card-title">App giám sát hệ thống</div>
+          <div class="support-card-desc">Kết nối toàn bộ hệ thống của khách hàng, cảnh báo sự cố tức thì qua Zalo/SMS.</div>
+          <span class="support-card-tag">iOS & Android</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PARTNER ROADMAP ═══ -->
+<section id="roadmap">
+  <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
+    <div class="section-tag">Lộ trình đại lý</div>
+    <h2 class="section-title">Trở thành đối tác<br>Mega Power trong 4 bước</h2>
+    <p class="section-sub">Quy trình minh bạch, nhanh chóng. Từ đăng ký đến nhận hàng đầu tiên trong 3 ngày làm việc.</p>
+  </div>
+
+  <div class="roadmap-wrap" id="roadmapWrap">
+    <div class="roadmap-line-track">
+      <div class="roadmap-line-fill" id="roadmapLine"></div>
+    </div>
+
+    <div class="roadmap-step" data-step="0">
+      <div class="step-circle">1</div>
+      <div class="step-title">Đăng ký hồ sơ</div>
+      <div class="step-desc">Điền form online, cung cấp thông tin doanh nghiệp hoặc cá nhân kinh doanh.</div>
+    </div>
+    <div class="roadmap-step" data-step="1">
+      <div class="step-circle">2</div>
+      <div class="step-title">Xét duyệt 24h</div>
+      <div class="step-desc">Đội ngũ kinh doanh liên hệ tư vấn chính sách và xác nhận cấp đại lý.</div>
+    </div>
+    <div class="roadmap-step" data-step="2">
+      <div class="step-circle">3</div>
+      <div class="step-title">Ký hợp đồng</div>
+      <div class="step-desc">Ký kết điện tử, nhận tài khoản portal và bộ tài liệu marketing độc quyền.</div>
+    </div>
+    <div class="roadmap-step" data-step="3">
+      <div class="step-circle">4</div>
+      <div class="step-title">Bắt đầu kinh doanh</div>
+      <div class="step-desc">Đặt đơn đầu tiên, nhận hàng trong 48h, hỗ trợ kỹ thuật trọn đời.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section id="cta">
+  <div class="cta-glow-tl"></div>
+  <div class="cta-glow-br"></div>
+  <div style="position:relative; z-index:2;">
+    <div class="section-tag" style="display:block; text-align:center; margin-bottom:16px;">Sẵn sàng mở rộng kinh doanh?</div>
+    <h2 class="section-title reveal">Tham gia mạng lưới<br>2,000+ đại lý Mega Power</h2>
+    <p class="section-sub reveal">Nhận ngay báo giá sỉ độc quyền và tư vấn miễn phí từ chuyên gia của chúng tôi. Không phí đăng ký, không cam kết tối thiểu.</p>
+    <div class="magnetic-wrapper" id="magneticWrap">
+      <button class="btn-magnetic" id="magneticBtn">Đăng ký ngay — Miễn phí</button>
+    </div>
+    <p class="cta-note">Hoặc gọi hotline: <strong style="color:var(--orange)">1800 6789</strong> · Thứ 2–7, 8:00–17:30</p>
+
+    <div class="cta-logos">
+      <div class="partner-logo-pill">DEYE</div>
+      <div class="partner-logo-pill">GROWATT</div>
+      <div class="partner-logo-pill">TRINA SOLAR</div>
+      <div class="partner-logo-pill">JA SOLAR</div>
+      <div class="partner-logo-pill">PYLONTECH</div>
+      <div class="partner-logo-pill">BYD</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-icon">M</div>
+        Mega<span>Power</span>
+      </a>
+      <p>Tổng kho phân phối thiết bị điện năng lượng mặt trời B2B hàng đầu Việt Nam. Kho hàng thực tế, giá cạnh tranh, giao hàng nhanh toàn quốc.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Sản phẩm</h4>
+      <ul>
+        <li><a href="#">Inverter Hybrid</a></li>
+        <li><a href="#">Inverter On-Grid</a></li>
+        <li><a href="#">Tấm Pin Mono</a></li>
+        <li><a href="#">Pin Lithium LFP</a></li>
+        <li><a href="#">Phụ kiện solar</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Đại lý</h4>
+      <ul>
+        <li><a href="#">Chính sách đại lý</a></li>
+        <li><a href="#">Đăng ký ngay</a></li>
+        <li><a href="#">Portal đại lý</a></li>
+        <li><a href="#">Chương trình khuyến mãi</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Hỗ trợ</h4>
+      <ul>
+        <li><a href="#">Tài liệu kỹ thuật</a></li>
+        <li><a href="#">Video hướng dẫn</a></li>
+        <li><a href="#">Hotline 1800 6789</a></li>
+        <li><a href="#">Zalo OA</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Mega Power. Tổng kho thiết bị điện mặt trời B2B. Địa chỉ: 123 Đường Năng Lượng, Q.7, TP.HCM</div>
+    <div class="social-links">
+      <a href="#" class="social-btn">f</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">yt</a>
+      <a href="#" class="social-btn">z</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── HERO TEXT REVEAL ──
+(function(){
+  const words = ['Tổng', 'kho', 'điện', 'mặt', 'trời', '<span class="accent">uy', 'tín', 'nhất</span>'];
+  const headline = ['Tổng kho', 'thiết bị', 'điện mặt trời', '<span class="accent">B2B #1</span>', 'Việt Nam'];
+  const el = document.getElementById('heroHeadline');
+  headline.forEach((w, i) => {
+    const span = document.createElement('div');
+    span.innerHTML = `<span class="word" style="animation-delay:${0.3 + i * 0.12}s">${w}</span>`;
+    el.appendChild(span);
+  });
+})();
+
+// ── STICKY HEADER ──
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── INTERSECTION OBSERVER (REVEAL + COUNTER + ROADMAP) ──
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+
+    if (el.classList.contains('reveal')) {
+      el.classList.add('visible');
+      io.unobserve(el);
+    }
+    if (el.id === 'trust') {
+      triggerCounters();
+      io.unobserve(el);
+    }
+    if (el.id === 'roadmapWrap') {
+      triggerRoadmap();
+      io.unobserve(el);
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+io.observe(document.getElementById('trust'));
+io.observe(document.getElementById('roadmapWrap'));
+
+// ── COUNTER ANIMATION ──
+function triggerCounters() {
+  document.querySelectorAll('.trust-icon').forEach((icon, i) => {
+    const delay = parseInt(icon.dataset.delay || 0);
+    setTimeout(() => icon.classList.add('popped'), delay);
+  });
+  document.querySelectorAll('.trust-number').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const start = performance.now();
+    function update(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      const val = Math.round(ease * target);
+      el.textContent = val.toLocaleString('vi-VN') + suffix;
+      if (t < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+// ── ROADMAP SCROLL ANIMATION ──
+function triggerRoadmap() {
+  const steps = document.querySelectorAll('.roadmap-step');
+  const line = document.getElementById('roadmapLine');
+  const total = steps.length;
+  steps.forEach((step, i) => {
+    setTimeout(() => {
+      step.classList.add('lit');
+      const pct = i === 0 ? 0 : Math.round((i / (total - 1)) * 100);
+      line.style.width = pct + '%';
+    }, i * 500);
+  });
+  // final
+  setTimeout(() => { line.style.width = '100%'; }, (total - 1) * 500);
+}
+
+// ── TABS ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const panels = document.querySelectorAll('.tab-panel');
+    panels.forEach(p => {
+      p.style.transform = 'translateX(-40px)';
+      p.style.opacity = '0';
+      p.classList.remove('active');
+    });
+    const target = document.getElementById('tab-' + tab);
+    setTimeout(() => {
+      target.classList.add('active');
+      target.style.transform = 'translateX(40px)';
+      target.style.opacity = '0';
+      requestAnimationFrame(() => {
+        target.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+        target.style.transform = 'translateX(0)';
+        target.style.opacity = '1';
+      });
+    }, 200);
+  });
+});
+
+// ── MAGNETIC BUTTON ──
+const wrap = document.getElementById('magneticWrap');
+const btn = document.getElementById('magneticBtn');
+wrap.addEventListener('mousemove', e => {
+  const r = wrap.getBoundingClientRect();
+  const cx = r.left + r.width / 2;
+  const cy = r.top + r.height / 2;
+  const dx = (e.clientX - cx) * 0.3;
+  const dy = (e.clientY - cy) * 0.3;
+  btn.style.transform = `translate(${dx}px, ${dy}px)`;
+});
+wrap.addEventListener('mouseleave', () => {
+  btn.style.transform = 'translate(0,0)';
+  btn.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+});
+wrap.addEventListener('mouseenter', () => { btn.style.transition = 'transform 0.1s ease'; });
+
+// ── PARALLAX HERO ──
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  const heroVisual = document.querySelector('.hero-visual');
+  if (heroVisual) heroVisual.style.transform = `translateY(${y * 0.15}px)`;
+  const heroBadge = document.querySelector('.hero-badge');
+  if (heroBadge) heroBadge.style.transform = `translateY(${y * 0.05}px)`;
+});
+</script>
+</body>
+</html>
