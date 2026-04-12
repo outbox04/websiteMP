@@ -1,1321 +1,682 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mega Power – Tổng Kho Thiết Bị Điện Mặt Trời B2B</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --navy: #002147;
-    --navy-80: rgba(0,33,71,0.85);
-    --navy-60: rgba(0,33,71,0.6);
+    --navy-muted: rgba(0,33,71,0.88);
     --orange: #FF8C00;
-    --orange-20: rgba(255,140,0,0.2);
-    --orange-40: rgba(255,140,0,0.4);
+    --orange-glow: rgba(255,140,0,0.18);
     --white: #ffffff;
-    --gray-light: #f4f6f9;
-    --gray-mid: #c8d0dc;
-    --font-head: 'Montserrat', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --radius: 16px;
+    --gray-50: #f8f9fa;
+    --gray-100: #e9ecef;
+    --gray-300: #ced4da;
+    --gray-500: #adb5bd;
+    --font: 'Inter', system-ui, sans-serif;
+    --r: 16px;
   }
+  body { font-family: var(--font); background: var(--gray-50); color: var(--navy); }
 
-  html { scroll-behavior: smooth; }
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--gray-100); padding: 0 20px; background: var(--white); }
+  .tab { padding: 10px 16px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--gray-500); border: none; background: none; border-bottom: 2px solid transparent; transition: all .2s; white-space: nowrap; }
+  .tab.active { color: var(--navy); border-bottom-color: var(--orange); }
 
-  body {
-    font-family: var(--font-body);
-    background: var(--white);
-    color: var(--navy);
-    overflow-x: hidden;
-  }
+  /* ── PANEL ── */
+  .panel { display: none; padding: 20px; animation: fadein .3s; }
+  .panel.active { display: block; }
+  @keyframes fadein { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--navy); }
-  ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+  /* ── SECTION HEADERS ── */
+  .sec-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; color: var(--orange); text-transform: uppercase; margin-bottom: 6px; }
+  .sec-title { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 12px; line-height: 1.35; }
+  .sec-body { font-size: 13px; color: #3d4f62; line-height: 1.65; margin-bottom: 14px; }
 
-  /* ═══════════════════════════════
-     HEADER
-  ═══════════════════════════════ */
-  #header {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    padding: 20px 5%;
-    display: flex; align-items: center; justify-content: space-between;
-    transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease;
-  }
-  #header.scrolled {
-    background: var(--navy-80);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    padding: 14px 5%;
-    border-bottom: 1px solid rgba(255,140,0,0.15);
-  }
-  .logo {
-    font-family: var(--font-head);
-    font-weight: 900;
-    font-size: 1.6rem;
-    color: var(--white);
-    letter-spacing: -0.5px;
-    display: flex; align-items: center; gap: 10px;
-    text-decoration: none;
-  }
-  .logo-icon {
-    width: 38px; height: 38px;
-    background: var(--orange);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; font-weight: 900; color: var(--white);
-  }
-  .logo span { color: var(--orange); }
+  /* ── MOCKUP SHELLS ── */
+  .mockup { background: var(--white); border-radius: var(--r); border: 0.5px solid var(--gray-100); overflow: hidden; margin-bottom: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+  .mockup-label { font-size: 11px; font-weight: 600; color: var(--gray-500); padding: 8px 14px 0; letter-spacing: .05em; text-transform: uppercase; }
 
-  nav { display: flex; align-items: center; gap: 36px; }
-  nav a {
-    color: rgba(255,255,255,0.85);
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    position: relative;
-    padding-bottom: 4px;
-  }
-  nav a::after {
-    content: '';
-    position: absolute; bottom: 0; left: 0;
-    width: 0; height: 2px;
-    background: var(--orange);
-    transition: width 0.3s ease;
-  }
-  nav a:hover::after { width: 100%; }
-  nav a:hover { color: var(--white); }
+  /* ── HEADER MOCKUP ── */
+  .hdr { background: linear-gradient(90deg, var(--navy) 0%, #003366 100%); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .logo-mark { display: flex; align-items: center; gap: 7px; }
+  .logo-icon { width: 28px; height: 28px; background: var(--orange); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .logo-icon svg { fill: white; }
+  .logo-text { font-size: 13px; font-weight: 700; color: white; letter-spacing: .04em; }
+  .nav-items { display: flex; gap: 18px; align-items: center; }
+  .nav-item { font-size: 12px; color: rgba(255,255,255,.75); cursor: pointer; position: relative; padding-bottom: 2px; }
+  .nav-item::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1.5px; background:var(--orange); transition: width .25s; }
+  .nav-item:hover::after { width: 100%; }
+  .nav-item:hover { color: white; }
+  .cta-btn { font-size: 11px; font-weight: 600; color: var(--orange); border: 1.5px solid var(--orange); border-radius: 8px; padding: 5px 12px; cursor: pointer; position: relative; overflow: hidden; background: transparent; animation: borderGlow 2.5s linear infinite; }
+  @keyframes borderGlow { 0%,100%{box-shadow:0 0 4px rgba(255,140,0,.3),0 0 12px rgba(255,140,0,.1)} 50%{box-shadow:0 0 8px rgba(255,140,0,.6),0 0 20px rgba(255,140,0,.2)} }
 
-  .btn-dealer {
-    position: relative;
-    padding: 10px 22px;
-    background: transparent;
-    border: 1.5px solid var(--orange);
-    border-radius: 8px;
-    color: var(--orange);
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 0.82rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    overflow: hidden;
-    text-decoration: none;
-    display: inline-block;
-    transition: color 0.3s;
-  }
-  .btn-dealer::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 10px;
-    background: conic-gradient(from var(--angle, 0deg), transparent 20%, var(--orange) 40%, transparent 60%);
-    animation: border-glow 2.5s linear infinite;
-    z-index: -1;
-  }
-  .btn-dealer::after {
-    content: '';
-    position: absolute;
-    inset: 1.5px;
-    background: var(--navy);
-    border-radius: 7px;
-    z-index: -1;
-    transition: background 0.3s;
-  }
-  .btn-dealer:hover { color: var(--white); }
-  .btn-dealer:hover::after { background: var(--orange); }
+  /* ── HERO MOCKUP ── */
+  .hero { background: linear-gradient(135deg, var(--navy) 0%, #003a6b 60%, #004080 100%); padding: 28px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center; min-height: 160px; position: relative; overflow: hidden; }
+  .hero::before { content:''; position:absolute; top:-30px; right:-30px; width:200px; height:200px; background: radial-gradient(circle, rgba(255,140,0,.12) 0%, transparent 70%); }
+  .hero-headline { font-size: 15px; font-weight: 700; color: white; line-height: 1.3; margin-bottom: 8px; }
+  .hero-headline span { color: var(--orange); }
+  .hero-sub { font-size: 11px; color: rgba(255,255,255,.65); line-height: 1.55; margin-bottom: 12px; }
+  .hero-btns { display: flex; gap: 8px; }
+  .btn-primary { background: var(--orange); color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 11px; font-weight: 600; cursor: pointer; }
+  .btn-ghost { background: transparent; color: white; border: 1px solid rgba(255,255,255,.35); border-radius: 8px; padding: 7px 14px; font-size: 11px; cursor: pointer; }
+  .hero-visual { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .product-card-mini { background: rgba(255,255,255,.08); backdrop-filter: blur(8px); border: 0.5px solid rgba(255,255,255,.18); border-radius: 10px; padding: 8px 12px; width: 110px; }
+  .pcard-tag { font-size: 9px; color: var(--orange); font-weight: 600; margin-bottom: 3px; text-transform: uppercase; }
+  .pcard-name { font-size: 11px; color: white; font-weight: 600; }
+  .pcard-val { font-size: 10px; color: rgba(255,255,255,.55); }
+  .scroll-hint { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; animation: float 2s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-4px)} }
+  .scroll-hint-mouse { width: 16px; height: 24px; border: 1.5px solid rgba(255,255,255,.4); border-radius: 8px; display: flex; justify-content: center; padding-top: 4px; }
+  .scroll-hint-dot { width: 3px; height: 5px; background: var(--orange); border-radius: 2px; animation: scroll-dot 1.4s ease-in-out infinite; }
+  @keyframes scroll-dot { 0%{transform:translateY(0);opacity:1} 100%{transform:translateY(6px);opacity:0} }
 
-  @property --angle {
-    syntax: '<angle>';
-    initial-value: 0deg;
-    inherits: false;
-  }
-  @keyframes border-glow {
-    to { --angle: 360deg; }
-  }
+  /* ── COUNTER ── */
+  .counters { background: var(--navy); padding: 18px 20px; display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+  .counter-item { text-align: center; }
+  .counter-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--orange-glow); border: 1px solid rgba(255,140,0,.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; }
+  .counter-num { font-size: 18px; font-weight: 700; color: white; line-height: 1; }
+  .counter-num span { color: var(--orange); }
+  .counter-lbl { font-size: 9px; color: rgba(255,255,255,.5); margin-top: 3px; text-transform: uppercase; letter-spacing: .05em; }
 
-  /* ═══════════════════════════════
-     HERO
-  ═══════════════════════════════ */
-  #hero {
-    min-height: 100vh;
-    background: var(--navy);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 120px 5% 80px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-bg-grid {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(255,140,0,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,140,0,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-  }
-  .hero-glow {
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(255,140,0,0.12) 0%, transparent 70%);
-    right: -100px; top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
+  /* ── PRODUCT GRID ── */
+  .product-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; padding: 14px; background: var(--gray-50); }
+  .prod-card { background: white; border-radius: 12px; border: 0.5px solid var(--gray-100); overflow: hidden; cursor: pointer; transition: transform .22s, box-shadow .22s; position: relative; }
+  .prod-card:hover { transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,33,71,.14); }
+  .prod-img { background: linear-gradient(135deg, #e8f0f8 0%, #d0e0f0 100%); height: 70px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .prod-img-inner { transition: transform .22s; font-size: 22px; }
+  .prod-card:hover .prod-img-inner { transform: scale(1.12); }
+  .prod-overlay { position: absolute; inset: 0; background: rgba(255,140,0,.82); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; opacity: 0; transition: opacity .2s; }
+  .prod-card:hover .prod-overlay { opacity: 1; }
+  .prod-overlay-btn { font-size: 9px; font-weight: 600; color: white; background: rgba(0,0,0,.25); border: none; border-radius: 5px; padding: 4px 8px; cursor: pointer; }
+  .prod-body { padding: 8px 10px; }
+  .prod-tag { font-size: 9px; color: var(--orange); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .prod-name { font-size: 11px; font-weight: 600; color: var(--navy); margin-top: 2px; }
+  .prod-spec { font-size: 10px; color: var(--gray-500); }
 
-  .hero-text { position: relative; z-index: 2; }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,140,0,0.1);
-    border: 1px solid rgba(255,140,0,0.3);
-    border-radius: 100px;
-    padding: 6px 16px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--orange);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-  }
-  .hero-badge-dot {
-    width: 6px; height: 6px;
-    background: var(--orange);
-    border-radius: 50%;
-    animation: pulse-dot 1.5s ease-in-out infinite;
-  }
-  @keyframes pulse-dot {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.4); }
-  }
+  /* ── SUPPORT TABS ── */
+  .support-tabs { display: flex; gap: 4px; padding: 10px; background: var(--gray-50); border-bottom: 1px solid var(--gray-100); }
+  .stab { font-size: 10px; font-weight: 600; padding: 5px 10px; border-radius: 6px; cursor: pointer; border: none; background: transparent; color: var(--gray-500); transition: all .18s; }
+  .stab.active { background: var(--navy); color: white; }
+  .support-content { padding: 12px; }
+  .doc-row { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 0.5px solid var(--gray-100); }
+  .doc-icon { width: 24px; height: 24px; border-radius: 6px; background: var(--orange-glow); border: 1px solid rgba(255,140,0,.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .doc-name { font-size: 11px; color: var(--navy); font-weight: 500; }
+  .doc-size { font-size: 10px; color: var(--gray-500); }
+  .doc-dl { margin-left: auto; font-size: 10px; font-weight: 600; color: var(--orange); cursor: pointer; }
 
-  .hero-headline {
-    font-family: var(--font-head);
-    font-weight: 900;
-    font-size: clamp(2.4rem, 5vw, 4rem);
-    line-height: 1.1;
-    color: var(--white);
-    margin-bottom: 24px;
-    overflow: hidden;
-  }
-  .hero-headline .word {
-    display: inline-block;
-    transform: translateY(100%);
-    opacity: 0;
-    animation: word-reveal 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
-    margin-right: 12px;
-  }
-  .hero-headline .accent { color: var(--orange); }
+  /* ── ROADMAP ── */
+  .roadmap { padding: 16px 20px; background: white; }
+  .roadmap-track { position: relative; }
+  .roadmap-line-bg { position: absolute; top: 14px; left: 14px; right: 14px; height: 2px; background: var(--gray-100); border-radius: 2px; }
+  .roadmap-line-fill { position: absolute; top: 14px; left: 14px; height: 2px; background: var(--orange); border-radius: 2px; transition: width 1s ease; }
+  .roadmap-steps { display: flex; justify-content: space-between; position: relative; z-index: 1; }
+  .step { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+  .step-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--gray-300); background: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--gray-500); transition: all .35s; cursor: pointer; }
+  .step.active .step-dot { border-color: var(--orange); color: var(--orange); box-shadow: 0 0 0 4px rgba(255,140,0,.18); }
+  .step-lbl { font-size: 9px; text-align: center; color: var(--gray-500); font-weight: 500; transition: color .35s; max-width: 60px; line-height: 1.3; }
+  .step.active .step-lbl { color: var(--navy); font-weight: 600; }
 
-  @keyframes word-reveal {
-    to { transform: translateY(0); opacity: 1; }
-  }
+  /* ── CTA ── */
+  .cta-block { background: var(--navy); padding: 24px 20px; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .cta-glow { position: absolute; bottom: -20px; right: -20px; width: 140px; height: 140px; background: radial-gradient(circle, rgba(255,140,0,.22) 0%, transparent 70%); pointer-events: none; }
+  .cta-title { font-size: 17px; font-weight: 700; color: white; margin-bottom: 8px; position: relative; z-index: 1; }
+  .cta-sub { font-size: 12px; color: rgba(255,255,255,.6); margin-bottom: 16px; position: relative; z-index: 1; }
+  .cta-mag-btn { background: var(--orange); color: white; border: none; border-radius: 10px; padding: 11px 28px; font-size: 13px; font-weight: 700; cursor: pointer; position: relative; z-index: 1; transition: transform .15s, box-shadow .15s; }
+  .cta-mag-btn:hover { transform: scale(1.04); box-shadow: 0 6px 22px rgba(255,140,0,.45); }
 
-  .hero-sub {
-    font-size: 1.05rem;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.75;
-    max-width: 480px;
-    margin-bottom: 40px;
-    opacity: 0;
-    animation: fade-up 0.8s 1s ease forwards;
-  }
-  .hero-ctas {
-    display: flex; gap: 16px; flex-wrap: wrap;
-    opacity: 0;
-    animation: fade-up 0.8s 1.2s ease forwards;
-  }
-  .btn-primary {
-    padding: 14px 32px;
-    background: var(--orange);
-    border: none;
-    border-radius: 10px;
-    color: var(--white);
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-decoration: none;
-    display: inline-block;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255,140,0,0.4); }
-  .btn-ghost {
-    padding: 14px 32px;
-    background: transparent;
-    border: 1.5px solid rgba(255,255,255,0.25);
-    border-radius: 10px;
-    color: var(--white);
-    font-family: var(--font-head);
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    text-decoration: none;
-    display: inline-block;
-  }
-  .btn-ghost:hover { border-color: var(--orange); background: rgba(255,140,0,0.05); }
+  /* ── FOOTER ── */
+  .footer { background: #001530; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .footer-left { font-size: 10px; color: rgba(255,255,255,.35); }
+  .social-icons { display: flex; gap: 8px; }
+  .social-icon { width: 28px; height: 28px; border-radius: 8px; border: 1px solid rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .25s; color: rgba(255,255,255,.45); font-size: 11px; font-weight: 700; }
+  .social-icon:hover { border-color: var(--orange); color: var(--orange); transform: rotate(360deg); }
 
-  @keyframes fade-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  /* ── SPEC CHIPS ── */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .chip { font-size: 10px; font-weight: 500; border-radius: 6px; padding: 4px 9px; }
+  .chip-navy { background: rgba(0,33,71,.08); color: var(--navy); }
+  .chip-orange { background: rgba(255,140,0,.1); color: #c06800; }
+  .chip-green { background: #e6f4ea; color: #1b5e20; }
 
-  .hero-image-wrap {
-    position: relative; z-index: 2;
-    display: flex; justify-content: center; align-items: center;
-  }
-  .hero-visual {
-    position: relative;
-    width: 100%; max-width: 520px;
-    opacity: 0;
-    animation: fade-up 1s 0.5s ease forwards;
-  }
-  .hero-card-glass {
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: var(--radius);
-    padding: 30px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-card-glass::before {
-    content: '';
-    position: absolute; top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: conic-gradient(from 0deg at 50% 50%, transparent 60%, rgba(255,140,0,0.05) 70%, transparent 80%);
-    animation: rotate-bg 8s linear infinite;
-  }
-  @keyframes rotate-bg {
-    to { transform: rotate(360deg); }
-  }
-  .product-showcase {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-    position: relative; z-index: 1;
-  }
-  .product-mini-card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 20px 16px;
-    text-align: center;
-    transition: transform 0.3s, border-color 0.3s;
-    cursor: pointer;
-  }
-  .product-mini-card:hover { transform: translateY(-4px); border-color: var(--orange); }
-  .product-mini-card .pmc-icon { font-size: 2.2rem; margin-bottom: 10px; }
-  .product-mini-card .pmc-name {
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 0.82rem;
-    color: var(--white);
-    margin-bottom: 4px;
-  }
-  .product-mini-card .pmc-count {
-    font-size: 0.72rem;
-    color: var(--orange);
-    font-weight: 600;
-  }
-  .product-mini-card.span2 { grid-column: 1 / -1; }
+  /* ── ANIM NOTES ── */
+  .anim-row { display: flex; align-items: flex-start; gap: 8px; padding: 7px 0; border-bottom: 0.5px solid var(--gray-100); }
+  .anim-icon { width: 20px; height: 20px; border-radius: 5px; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .anim-title { font-size: 11px; font-weight: 600; color: var(--navy); }
+  .anim-detail { font-size: 10px; color: #5a6a7a; line-height: 1.5; }
+  .lib-badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
+  .lb-gsap { background: #88ce02; color: #2a3d00; }
+  .lb-css { background: #264de4; color: white; }
+  .lb-aos { background: #6c63ff; color: white; }
 
-  .scroll-indicator {
-    position: absolute;
-    bottom: 40px; left: 50%;
-    transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    color: rgba(255,255,255,0.4);
-    font-size: 0.72rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: fade-up 1s 1.5s ease forwards;
-  }
-  .mouse-icon {
-    width: 24px; height: 38px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
-    position: relative;
-    animation: float-bounce 2s ease-in-out infinite;
-  }
-  .mouse-wheel {
-    width: 3px; height: 7px;
-    background: var(--orange);
-    border-radius: 2px;
-    position: absolute;
-    top: 6px; left: 50%;
-    transform: translateX(-50%);
-    animation: scroll-wheel 2s ease-in-out infinite;
-  }
-  @keyframes float-bounce {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-  @keyframes scroll-wheel {
-    0% { opacity: 1; top: 6px; }
-    100% { opacity: 0; top: 20px; }
-  }
+  /* ── RESPONSIVE SECTION ── */
+  .resp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+  .resp-card { background: white; border-radius: 10px; border: 0.5px solid var(--gray-100); padding: 10px; text-align: center; }
+  .resp-device { font-size: 20px; margin-bottom: 4px; }
+  .resp-name { font-size: 10px; font-weight: 600; color: var(--navy); }
+  .resp-bp { font-size: 9px; color: var(--gray-500); margin-top: 1px; }
+  .resp-features { font-size: 9px; color: #3d4f62; margin-top: 5px; text-align: left; line-height: 1.7; }
 
-  /* ═══════════════════════════════
-     TRUST COUNTER
-  ═══════════════════════════════ */
-  #trust {
-    background: var(--navy);
-    padding: 80px 5%;
-    border-top: 1px solid rgba(255,140,0,0.1);
-    border-bottom: 1px solid rgba(255,140,0,0.1);
-  }
-  .trust-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: rgba(255,140,0,0.1);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-  .trust-item {
-    background: var(--navy);
-    padding: 44px 32px;
-    text-align: center;
-    position: relative;
-  }
-  .trust-item::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(255,140,0,0.03), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .trust-item:hover::before { opacity: 1; }
-  .trust-icon {
-    font-size: 2.2rem;
-    margin-bottom: 16px;
-    display: block;
-    opacity: 0;
-    transform: scale(0.6);
-    transition: opacity 0.5s, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  .trust-icon.popped { opacity: 1; transform: scale(1); }
-  .trust-number {
-    font-family: var(--font-head);
-    font-weight: 900;
-    font-size: 3rem;
-    color: var(--orange);
-    line-height: 1;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .trust-label {
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.6);
-    font-weight: 500;
-    letter-spacing: 0.3px;
-  }
+  /* ── CSS SNIPPET ── */
+  .code-block { background: #0d1117; border-radius: 10px; padding: 12px 14px; font-family: 'Fira Code', 'Courier New', monospace; font-size: 10px; line-height: 1.7; overflow-x: auto; }
+  .c-comment { color: #6a9955; }
+  .c-prop { color: #9cdcfe; }
+  .c-val { color: #ce9178; }
+  .c-punct { color: #d4d4d4; }
+  .c-sel { color: #dcdcaa; }
+  .c-num { color: #b5cea8; }
+  .c-orange { color: #FF8C00; font-weight: 600; }
 
-  /* ═══════════════════════════════
-     PRODUCTS
-  ═══════════════════════════════ */
-  #products {
-    padding: 100px 5%;
-    background: var(--gray-light);
-  }
-  .section-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--orange);
-    margin-bottom: 12px;
-  }
-  .section-title {
-    font-family: var(--font-head);
-    font-weight: 900;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    color: var(--navy);
-    line-height: 1.15;
-    margin-bottom: 16px;
-  }
-  .section-sub {
-    font-size: 1rem;
-    color: #5a6880;
-    max-width: 540px;
-    line-height: 1.7;
-    margin-bottom: 56px;
-  }
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .product-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid rgba(0,33,71,0.08);
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.35s ease;
-  }
-  .product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 24px 60px rgba(0,33,71,0.18);
-  }
-  .product-img-wrap {
-    height: 220px;
-    overflow: hidden;
-    position: relative;
-    background: linear-gradient(135deg, #e8eef6, #d0dcea);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .product-emoji { font-size: 5rem; transition: transform 0.35s ease; }
-  .product-card:hover .product-emoji { transform: scale(1.1); }
-
-  .product-overlay {
-    position: absolute; inset: 0;
-    background: rgba(255,140,0,0.88);
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .product-card:hover .product-overlay { opacity: 1; }
-  .overlay-btn {
-    padding: 10px 24px;
-    background: var(--white);
-    border: none; border-radius: 8px;
-    color: var(--orange);
-    font-family: var(--font-head);
-    font-weight: 700;
-    font-size: 0.82rem;
-    cursor: pointer;
-    width: 170px; text-align: center;
-    text-decoration: none; display: block;
-    transition: background 0.2s, color 0.2s;
-  }
-  .overlay-btn:hover { background: var(--navy); color: var(--white); }
-  .overlay-btn.ghost {
-    background: transparent;
-    border: 2px solid rgba(255,255,255,0.7);
-    color: var(--white);
-  }
-  .overlay-btn.ghost:hover { background: rgba(255,255,255,0.15); }
-
-  .product-info { padding: 24px; }
-  .product-cat {
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px;
-    text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
-  }
-  .product-name {
-    font-family: var(--font-head);
-    font-weight: 700; font-size: 1.1rem;
-    color: var(--navy); margin-bottom: 8px;
-  }
-  .product-specs { font-size: 0.83rem; color: #6b7a8d; line-height: 1.6; margin-bottom: 16px; }
-  .product-price {
-    font-family: var(--font-head);
-    font-weight: 900; font-size: 1.3rem; color: var(--navy);
-  }
-  .product-price span { font-size: 0.8rem; color: #6b7a8d; font-weight: 400; margin-left: 4px; }
-
-  /* ═══════════════════════════════
-     SUPPORT TABS
-  ═══════════════════════════════ */
-  #support {
-    padding: 100px 5%;
-    background: var(--navy);
-    position: relative; overflow: hidden;
-  }
-  #support .section-title { color: var(--white); }
-  #support .section-sub { color: rgba(255,255,255,0.55); }
-  .support-bg-accent {
-    position: absolute;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(255,140,0,0.08) 0%, transparent 70%);
-    right: 0; bottom: -100px;
-    pointer-events: none;
-  }
-
-  .tabs-nav {
-    display: flex; gap: 4px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 6px;
-    width: fit-content;
-    margin-bottom: 40px;
-  }
-  .tab-btn {
-    padding: 10px 24px;
-    background: transparent;
-    border: none; border-radius: 8px;
-    color: rgba(255,255,255,0.5);
-    font-family: var(--font-head);
-    font-weight: 600; font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .tab-btn.active {
-    background: var(--orange);
-    color: var(--white);
-  }
-  .tab-btn svg { width: 16px; height: 16px; stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset 0.5s ease; }
-  .tab-btn.active svg { stroke-dashoffset: 0; }
-
-  .tab-content-wrap { position: relative; min-height: 320px; overflow: hidden; }
-  .tab-panel {
-    position: absolute; inset: 0;
-    opacity: 0;
-    transform: translateX(40px);
-    transition: opacity 0.35s ease, transform 0.35s ease;
-    pointer-events: none;
-  }
-  .tab-panel.active {
-    opacity: 1; transform: translateX(0);
-    position: relative; pointer-events: auto;
-  }
-  .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .support-card {
-    background: rgba(255,255,255,0.04);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    transition: border-color 0.3s, transform 0.3s;
-    cursor: pointer;
-  }
-  .support-card:hover { border-color: var(--orange); transform: translateY(-4px); }
-  .support-card-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
-  .support-card-title { font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; color: var(--white); margin-bottom: 8px; }
-  .support-card-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
-  .support-card-tag {
-    display: inline-block; margin-top: 14px;
-    padding: 4px 12px; border-radius: 100px;
-    background: rgba(255,140,0,0.15); color: var(--orange);
-    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;
-  }
-
-  /* ═══════════════════════════════
-     PARTNER ROADMAP
-  ═══════════════════════════════ */
-  #roadmap {
-    padding: 100px 5%;
-    background: var(--white);
-  }
-  .roadmap-wrap {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: 60px;
-  }
-  .roadmap-line-track {
-    position: absolute;
-    top: 30px; left: calc(12.5%);
-    right: calc(12.5%);
-    height: 3px;
-    background: rgba(0,33,71,0.1);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .roadmap-line-fill {
-    height: 100%; width: 0;
-    background: var(--orange);
-    border-radius: 2px;
-    transition: width 0.1s linear;
-    box-shadow: 0 0 10px rgba(255,140,0,0.5);
-  }
-  .roadmap-step {
-    flex: 1;
-    display: flex; flex-direction: column; align-items: center;
-    text-align: center;
-    position: relative;
-    padding: 0 10px;
-  }
-  .step-circle {
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    border: 3px solid rgba(0,33,71,0.15);
-    background: var(--white);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-head);
-    font-weight: 900; font-size: 1.2rem;
-    color: rgba(0,33,71,0.3);
-    margin-bottom: 24px;
-    position: relative; z-index: 2;
-    transition: border-color 0.4s, color 0.4s, box-shadow 0.4s;
-  }
-  .roadmap-step.lit .step-circle {
-    border-color: var(--orange);
-    color: var(--orange);
-    box-shadow: 0 0 20px rgba(255,140,0,0.4);
-  }
-  .step-title {
-    font-family: var(--font-head); font-weight: 700; font-size: 0.95rem;
-    color: rgba(0,33,71,0.35); margin-bottom: 8px;
-    transition: color 0.4s;
-  }
-  .roadmap-step.lit .step-title { color: var(--navy); }
-  .step-desc { font-size: 0.82rem; color: rgba(0,33,71,0.45); line-height: 1.6; transition: color 0.4s; }
-  .roadmap-step.lit .step-desc { color: #5a6880; }
-
-  /* ═══════════════════════════════
-     CTA
-  ═══════════════════════════════ */
-  #cta {
-    padding: 120px 5%;
-    background: var(--navy);
-    text-align: center;
-    position: relative; overflow: hidden;
-  }
-  .cta-glow-tl {
-    position: absolute; top: -120px; left: -120px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(255,140,0,0.12) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .cta-glow-br {
-    position: absolute; bottom: -120px; right: -80px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(255,140,0,0.08) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  #cta .section-title { color: var(--white); font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 20px; }
-  #cta .section-sub { color: rgba(255,255,255,0.55); margin: 0 auto 50px; text-align: center; max-width: 560px; }
-
-  .magnetic-wrapper {
-    display: inline-block;
-    position: relative;
-  }
-  .btn-magnetic {
-    position: relative;
-    padding: 18px 48px;
-    background: var(--orange);
-    border: none; border-radius: 12px;
-    color: var(--white);
-    font-family: var(--font-head);
-    font-weight: 900; font-size: 1rem;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
-    display: inline-block;
-    text-transform: uppercase;
-  }
-  .btn-magnetic:hover {
-    box-shadow: 0 20px 50px rgba(255,140,0,0.5);
-  }
-
-  .cta-note {
-    margin-top: 20px;
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.35);
-  }
-  .cta-logos {
-    display: flex; align-items: center; justify-content: center; gap: 32px;
-    margin-top: 60px;
-    flex-wrap: wrap;
-  }
-  .partner-logo-pill {
-    padding: 8px 24px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 100px;
-    font-family: var(--font-head);
-    font-weight: 700; font-size: 0.82rem;
-    color: rgba(255,255,255,0.35);
-    letter-spacing: 1px;
-  }
-
-  /* ═══════════════════════════════
-     FOOTER
-  ═══════════════════════════════ */
-  footer {
-    background: #001530;
-    padding: 60px 5% 40px;
-    border-top: 1px solid rgba(255,140,0,0.08);
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 48px;
-    margin-bottom: 48px;
-  }
-  .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.75; margin-top: 14px; max-width: 280px; }
-  .footer-col h4 {
-    font-family: var(--font-head); font-weight: 700; font-size: 0.82rem;
-    text-transform: uppercase; letter-spacing: 1.5px;
-    color: var(--orange); margin-bottom: 20px;
-  }
-  .footer-col ul { list-style: none; }
-  .footer-col ul li { margin-bottom: 10px; }
-  .footer-col ul li a { font-size: 0.85rem; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
-  .footer-col ul li a:hover { color: var(--white); }
-
-  .footer-bottom {
-    display: flex; align-items: center; justify-content: space-between;
-    padding-top: 28px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    flex-wrap: wrap; gap: 16px;
-  }
-  .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
-  .social-links { display: flex; gap: 12px; }
-  .social-btn {
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    display: flex; align-items: center; justify-content: center;
-    color: rgba(255,255,255,0.4);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.25s, color 0.25s, transform 0.4s ease;
-    text-decoration: none;
-  }
-  .social-btn:hover { background: var(--orange); color: var(--white); transform: rotate(360deg); }
-
-  /* ═══════════════════════════════
-     UTILITIES
-  ═══════════════════════════════ */
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 1024px) {
-    .product-grid { grid-template-columns: repeat(2, 1fr); }
-    .trust-grid { grid-template-columns: repeat(2, 1fr); }
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-    .support-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 768px) {
-    #hero { grid-template-columns: 1fr; text-align: center; }
-    .hero-ctas { justify-content: center; }
-    .hero-sub { margin: 0 auto 40px; }
-    .hero-image-wrap { display: none; }
-    nav { display: none; }
-    .product-grid { grid-template-columns: 1fr; }
-    .trust-grid { grid-template-columns: 1fr 1fr; }
-    .roadmap-wrap { flex-direction: column; align-items: center; gap: 40px; }
-    .roadmap-line-track { display: none; }
-    .footer-grid { grid-template-columns: 1fr; }
-    .support-grid { grid-template-columns: 1fr; }
-  }
+  .divider { height: 1px; background: var(--gray-100); margin: 12px 0; }
 </style>
-</head>
-<body>
 
-<!-- ═══ HEADER ═══ -->
-<header id="header">
-  <a href="#" class="logo">
-    <div class="logo-icon">M</div>
-    Mega<span>Power</span>
-  </a>
-  <nav>
-    <a href="#products">Sản phẩm</a>
-    <a href="#support">Hỗ trợ kỹ thuật</a>
-    <a href="#roadmap">Đại lý</a>
-    <a href="#trust">Về chúng tôi</a>
-  </nav>
-  <a href="#cta" class="btn-dealer">Trở thành đại lý</a>
-</header>
+<div style="font-family: var(--font); max-width: 720px; margin: 0 auto; padding: 16px;">
 
-<!-- ═══ HERO ═══ -->
-<section id="hero">
-  <div class="hero-bg-grid"></div>
-  <div class="hero-glow"></div>
-
-  <div class="hero-text">
-    <div class="hero-badge">
-      <div class="hero-badge-dot"></div>
-      Tổng kho B2B · Toàn quốc
+  <!-- Page Title -->
+  <div style="text-align:center; margin-bottom: 20px;">
+    <div style="display:inline-flex; align-items:center; gap:8px; background:var(--navy); border-radius:12px; padding:8px 16px; margin-bottom:10px;">
+      <div style="width:22px;height:22px;background:var(--orange);border-radius:5px;display:flex;align-items:center;justify-content:center;">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="white"><path d="M6 1L7.8 4.2L11 4.7L8.5 7.1L9.1 10.3L6 8.6L2.9 10.3L3.5 7.1L1 4.7L4.2 4.2Z"/></svg>
+      </div>
+      <span style="font-size:13px;font-weight:700;color:white;letter-spacing:.05em;">MEGA POWER</span>
+      <span style="font-size:10px;color:rgba(255,255,255,.45);">Landing Page Spec</span>
     </div>
-    <h1 class="hero-headline" id="heroHeadline"></h1>
-    <p class="hero-sub">Phân phối sỉ Inverter, Tấm Pin, Pin Lithium chính hãng. Hỗ trợ kỹ thuật 24/7, giao hàng toàn quốc trong 48 giờ. Đối tác tin cậy của hơn 2.000 đại lý.</p>
-    <div class="hero-ctas">
-      <a href="#products" class="btn-primary">Xem báo giá sỉ</a>
-      <a href="#support" class="btn-ghost">Tài liệu kỹ thuật</a>
-    </div>
+    <div style="font-size:12px;color:#5a6a7a;">Senior UI/UX Design Document · B2B Solar Distribution</div>
   </div>
 
-  <div class="hero-image-wrap">
-    <div class="hero-visual">
-      <div class="hero-card-glass">
-        <div class="product-showcase">
-          <div class="product-mini-card">
-            <div class="pmc-icon">⚡</div>
-            <div class="pmc-name">Inverter</div>
-            <div class="pmc-count">48 SKU</div>
+  <!-- MAIN TABS -->
+  <div style="background:white; border-radius:var(--r); border:0.5px solid var(--gray-100); overflow:hidden; margin-bottom:16px;">
+    <div class="tabs" id="main-tabs">
+      <button class="tab active" onclick="switchTab(0)">Live Mockup</button>
+      <button class="tab" onclick="switchTab(1)">CSS / Tailwind</button>
+      <button class="tab" onclick="switchTab(2)">Animations</button>
+      <button class="tab" onclick="switchTab(3)">Responsive</button>
+    </div>
+
+    <!-- PANEL 0: LIVE MOCKUP -->
+    <div class="panel active" id="panel-0" style="padding:0;">
+
+      <!-- S1: Header -->
+      <div class="mockup-label" style="padding: 10px 14px 4px; font-size:10px; font-weight:600; color:var(--gray-500); text-transform:uppercase; letter-spacing:.05em;">Section 1 — Sticky Header</div>
+      <div class="mockup" style="margin:0 10px 0; border-radius:0;">
+        <div class="hdr">
+          <div class="logo-mark">
+            <div class="logo-icon"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1L8.8 5H13L9.6 7.5L11 12L7 9.5L3 12L4.4 7.5L1 5H5.2Z"/></svg></div>
+            <span class="logo-text">MEGA POWER</span>
           </div>
-          <div class="product-mini-card">
-            <div class="pmc-icon">☀️</div>
-            <div class="pmc-name">Tấm Pin</div>
-            <div class="pmc-count">62 SKU</div>
-          </div>
-          <div class="product-mini-card">
-            <div class="pmc-icon">🔋</div>
-            <div class="pmc-name">Pin Lithium</div>
-            <div class="pmc-count">27 SKU</div>
-          </div>
-          <div class="product-mini-card">
-            <div class="pmc-icon">🔌</div>
-            <div class="pmc-name">Phụ kiện</div>
-            <div class="pmc-count">130 SKU</div>
+          <div class="nav-items">
+            <span class="nav-item">Sản phẩm</span>
+            <span class="nav-item">Hỗ trợ</span>
+            <span class="nav-item">Về chúng tôi</span>
+            <button class="cta-btn">Trở thành đại lý</button>
           </div>
         </div>
-        <div style="margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; align-items:center;">
-          <div style="font-size:0.78rem; color:rgba(255,255,255,0.4);">Giá cập nhật</div>
-          <div style="font-size:0.78rem; color:var(--orange); font-weight:700;">● Live · Hôm nay</div>
+      </div>
+      <div class="chips" style="padding: 6px 14px 4px;">
+        <span class="chip chip-navy">backdrop-filter: blur(20px)</span>
+        <span class="chip chip-orange">Hover underline slide</span>
+        <span class="chip chip-green">Border glow animation</span>
+        <span class="chip chip-navy">position: sticky; top:0; z-index:100</span>
+      </div>
+
+      <!-- S2: Hero -->
+      <div class="mockup-label" style="padding: 6px 14px 4px;">Section 2 — Hero (Parallax + Text Reveal)</div>
+      <div class="mockup" style="margin:0 10px 0; border-radius:0;">
+        <div class="hero">
+          <div>
+            <div style="font-size:9px;font-weight:700;color:var(--orange);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;">Tổng kho phân phối B2B</div>
+            <div class="hero-headline">Giải pháp điện<br>mặt trời <span>đáng tin cậy</span><br>cho đại lý</div>
+            <div class="hero-sub">Inverter · Tấm pin · Pin Lithium<br>Sỉ nhanh — Hỗ trợ kỹ thuật 24/7</div>
+            <div class="hero-btns">
+              <button class="btn-primary">Đăng ký đại lý</button>
+              <button class="btn-ghost">Xem danh mục</button>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="product-card-mini">
+              <div class="pcard-tag">Inverter</div>
+              <div class="pcard-name">SUN-12K-G04</div>
+              <div class="pcard-val">12 kW · Hybrid</div>
+            </div>
+            <div class="product-card-mini" style="opacity:.8;transform:scale(.93)">
+              <div class="pcard-tag">Tấm pin</div>
+              <div class="pcard-name">HJT 540W</div>
+              <div class="pcard-val">Mono PERC · Tier 1</div>
+            </div>
+          </div>
+          <div class="scroll-hint">
+            <div class="scroll-hint-mouse"><div class="scroll-hint-dot"></div></div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+      <div class="chips" style="padding: 6px 14px 4px;">
+        <span class="chip chip-orange">GSAP TextSplitter + stagger reveal</span>
+        <span class="chip chip-navy">parallax: transform on scroll event</span>
+        <span class="chip chip-green">Floating mouse indicator CSS</span>
+      </div>
 
-  <div class="scroll-indicator">
-    <div class="mouse-icon"><div class="mouse-wheel"></div></div>
-    Cuộn xuống
-  </div>
-</section>
-
-<!-- ═══ TRUST COUNTER ═══ -->
-<section id="trust">
-  <div class="trust-grid">
-    <div class="trust-item">
-      <span class="trust-icon" data-delay="0">🏭</span>
-      <span class="trust-number" data-target="2000" data-suffix="+">0</span>
-      <span class="trust-label">Đại lý tin tưởng</span>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon" data-delay="100">📦</span>
-      <span class="trust-number" data-target="50000" data-suffix="+">0</span>
-      <span class="trust-label">Đơn hàng hoàn thành</span>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon" data-delay="200">⚡</span>
-      <span class="trust-number" data-target="500" data-suffix="MW">0</span>
-      <span class="trust-label">Công suất lắp đặt</span>
-    </div>
-    <div class="trust-item">
-      <span class="trust-icon" data-delay="300">🛡️</span>
-      <span class="trust-number" data-target="12" data-suffix=" năm">0</span>
-      <span class="trust-label">Kinh nghiệm phân phối</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ PRODUCTS ═══ -->
-<section id="products">
-  <div class="reveal">
-    <div class="section-tag">Danh mục sản phẩm</div>
-    <h2 class="section-title">Thiết bị chính hãng,<br>giá sỉ tốt nhất</h2>
-    <p class="section-sub">Kho hàng thực tế 5,000m² tại TP.HCM — đặt hàng trước 16h, giao trong ngày. Bảo hành chính hãng, cam kết giá sỉ ổn định theo quý.</p>
-  </div>
-
-  <div class="product-grid">
-    <div class="product-card reveal">
-      <div class="product-img-wrap">
-        <div class="product-emoji">⚡</div>
-        <div class="product-overlay">
-          <a href="#" class="overlay-btn">Xem giá sỉ</a>
-          <a href="#" class="overlay-btn ghost">Tải Datasheet</a>
+      <!-- S3: Counters -->
+      <div class="mockup-label" style="padding: 6px 14px 4px;">Section 3 — Trust Counter (Scroll-Triggered)</div>
+      <div class="mockup" style="margin:0 10px 0; border-radius:0;">
+        <div class="counters">
+          <div class="counter-item">
+            <div class="counter-icon"><svg width="14" height="14" fill="none" stroke="#FF8C00" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div class="counter-num">1,500<span>+</span></div>
+            <div class="counter-lbl">Đại lý tin dùng</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-icon"><svg width="14" height="14" fill="none" stroke="#FF8C00" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+            <div class="counter-num">200<span>+</span></div>
+            <div class="counter-lbl">SKU sản phẩm</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-icon"><svg width="14" height="14" fill="none" stroke="#FF8C00" stroke-width="1.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="counter-num">8<span> năm</span></div>
+            <div class="counter-lbl">Kinh nghiệm</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-icon"><svg width="14" height="14" fill="none" stroke="#FF8C00" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <div class="counter-num">50<span> MW</span></div>
+            <div class="counter-lbl">Đã lắp đặt</div>
+          </div>
         </div>
       </div>
-      <div class="product-info">
-        <div class="product-cat">Inverter</div>
-        <div class="product-name">Deye Hybrid 5–50kW</div>
-        <div class="product-specs">MPPT đôi · WiFi/4G tích hợp · Bảo hành 10 năm<br>Xuất xứ: Deye, Growatt, SMA</div>
-        <div class="product-price">Liên hệ báo giá <span>· Giá sỉ từ 20 bộ</span></div>
+      <div class="chips" style="padding: 6px 14px 4px;">
+        <span class="chip chip-orange">CountUp.js (0 → target, 2s)</span>
+        <span class="chip chip-navy">Intersection Observer trigger</span>
+        <span class="chip chip-green">Icon pop: scale(0) → scale(1) stagger 0.15s</span>
       </div>
-    </div>
 
-    <div class="product-card reveal" style="transition-delay:0.1s">
-      <div class="product-img-wrap">
-        <div class="product-emoji">☀️</div>
-        <div class="product-overlay">
-          <a href="#" class="overlay-btn">Xem giá sỉ</a>
-          <a href="#" class="overlay-btn ghost">Tải Datasheet</a>
-        </div>
-      </div>
-      <div class="product-info">
-        <div class="product-cat">Tấm Pin Quang Điện</div>
-        <div class="product-name">Mono PERC/TOPCon 400–700W</div>
-        <div class="product-specs">Hiệu suất 21–23% · Bền vững 25 năm<br>Trina, JA Solar, Longi, Risen</div>
-        <div class="product-price">Liên hệ báo giá <span>· Giá sỉ từ 50 tấm</span></div>
-      </div>
-    </div>
-
-    <div class="product-card reveal" style="transition-delay:0.2s">
-      <div class="product-img-wrap">
-        <div class="product-emoji">🔋</div>
-        <div class="product-overlay">
-          <a href="#" class="overlay-btn">Xem giá sỉ</a>
-          <a href="#" class="overlay-btn ghost">Tải Datasheet</a>
-        </div>
-      </div>
-      <div class="product-info">
-        <div class="product-cat">Pin Lưu Trữ Lithium</div>
-        <div class="product-name">LiFePO4 5–100kWh</div>
-        <div class="product-specs">BMS tích hợp · 6,000+ chu kỳ · IP65<br>Pylontech, BYD, Dyness</div>
-        <div class="product-price">Liên hệ báo giá <span>· Giá sỉ từ 5 bộ</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ SUPPORT TABS ═══ -->
-<section id="support">
-  <div class="support-bg-accent"></div>
-  <div class="reveal">
-    <div class="section-tag">Hỗ trợ kỹ thuật B2B</div>
-    <h2 class="section-title">Tài nguyên dành riêng<br>cho đại lý & thợ lắp đặt</h2>
-    <p class="section-sub">Kho tài liệu độc quyền, video hướng dẫn chi tiết và phần mềm thiết kế hệ thống — miễn phí cho đối tác.</p>
-  </div>
-
-  <div class="tabs-nav">
-    <button class="tab-btn active" data-tab="docs">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        <polyline points="14 2 14 8 20 8"/>
-      </svg>
-      Tài liệu
-    </button>
-    <button class="tab-btn" data-tab="video">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="23 7 16 12 23 17 23 7"/>
-        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-      </svg>
-      Video hướng dẫn
-    </button>
-    <button class="tab-btn" data-tab="software">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-        <line x1="8" y1="21" x2="16" y2="21"/>
-        <line x1="12" y1="17" x2="12" y2="21"/>
-      </svg>
-      Phần mềm
-    </button>
-  </div>
-
-  <div class="tab-content-wrap">
-    <div class="tab-panel active" id="tab-docs">
-      <div class="support-grid">
-        <div class="support-card">
-          <span class="support-card-icon">📋</span>
-          <div class="support-card-title">Datasheet kỹ thuật</div>
-          <div class="support-card-desc">Thông số chi tiết, đường cong I-V, hướng dẫn lắp đặt cho tất cả sản phẩm trong kho.</div>
-          <span class="support-card-tag">500+ tài liệu</span>
-        </div>
-        <div class="support-card">
-          <span class="support-card-icon">⚙️</span>
-          <div class="support-card-title">Hướng dẫn cài đặt</div>
-          <div class="support-card-desc">Quy trình thiết lập nhanh, cài đặt thông số bảo vệ, ghép nối pin với inverter.</div>
-          <span class="support-card-tag">Cập nhật mới nhất</span>
-        </div>
-        <div class="support-card">
-          <span class="support-card-icon">📐</span>
-          <div class="support-card-title">Bảng tính thiết kế</div>
-          <div class="support-card-desc">Template Excel tính toán tải, số tấm pin, dung lượng pin lưu trữ, ROI cho khách hàng.</div>
-          <span class="support-card-tag">Tải ngay</span>
+      <!-- S4: Products -->
+      <div class="mockup-label" style="padding: 6px 14px 4px;">Section 4 — Product Grid (Interactive Cards)</div>
+      <div class="mockup" style="margin:0 10px 0; border-radius:0;">
+        <div class="product-grid">
+          <div class="prod-card" title="Hover để xem hiệu ứng!">
+            <div class="prod-img">
+              <div class="prod-img-inner">⚡</div>
+              <div class="prod-overlay">
+                <button class="prod-overlay-btn">Xem giá sỉ</button>
+                <button class="prod-overlay-btn">Tải Datasheet</button>
+              </div>
+            </div>
+            <div class="prod-body">
+              <div class="prod-tag">Inverter</div>
+              <div class="prod-name">Hybrid 3-12kW</div>
+              <div class="prod-spec">SolarEdge / Deye</div>
+            </div>
+          </div>
+          <div class="prod-card">
+            <div class="prod-img" style="background: linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 100%);">
+              <div class="prod-img-inner">☀️</div>
+              <div class="prod-overlay">
+                <button class="prod-overlay-btn">Xem giá sỉ</button>
+                <button class="prod-overlay-btn">Tải Datasheet</button>
+              </div>
+            </div>
+            <div class="prod-body">
+              <div class="prod-tag">Tấm pin</div>
+              <div class="prod-name">HJT 540–580W</div>
+              <div class="prod-spec">Jinko / LONGi / Risen</div>
+            </div>
+          </div>
+          <div class="prod-card">
+            <div class="prod-img" style="background: linear-gradient(135deg,#e3f2fd 0%,#bbdefb 100%);">
+              <div class="prod-img-inner">🔋</div>
+              <div class="prod-overlay">
+                <button class="prod-overlay-btn">Xem giá sỉ</button>
+                <button class="prod-overlay-btn">Tải Datasheet</button>
+              </div>
+            </div>
+            <div class="prod-body">
+              <div class="prod-tag">Pin Lithium</div>
+              <div class="prod-name">LiFePO4 5–100kWh</div>
+              <div class="prod-spec">CATL / BYD</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      <div class="chips" style="padding: 6px 14px 4px;">
+        <span class="chip chip-orange">translateY(-10px) on hover</span>
+        <span class="chip chip-navy">Overlay: opacity 0→1 transition .2s</span>
+        <span class="chip chip-green">img scale(1.1) with overflow:hidden</span>
+      </div>
 
-    <div class="tab-panel" id="tab-video">
-      <div class="support-grid">
-        <div class="support-card">
-          <span class="support-card-icon">▶️</span>
-          <div class="support-card-title">Lắp đặt Inverter Hybrid</div>
-          <div class="support-card-desc">Video step-by-step chi tiết từ đấu dây, cài app đến commissioning hệ thống hoàn chỉnh.</div>
-          <span class="support-card-tag">42 video</span>
+      <!-- S5: Support Tabs -->
+      <div class="mockup-label" style="padding: 6px 14px 4px;">Section 5 — B2B Technical Support (Tabs)</div>
+      <div class="mockup" style="margin:0 10px 0; border-radius:0;">
+        <div class="support-tabs">
+          <button class="stab active" onclick="switchSupportTab(this,0)">📄 Tài liệu</button>
+          <button class="stab" onclick="switchSupportTab(this,1)">🎬 Video</button>
+          <button class="stab" onclick="switchSupportTab(this,2)">💾 Phần mềm</button>
         </div>
-        <div class="support-card">
-          <span class="support-card-icon">🎓</span>
-          <div class="support-card-title">Khóa học online</div>
-          <div class="support-card-desc">Chứng chỉ đại lý Mega Power, khóa học kỹ thuật lắp đặt solar cơ bản đến nâng cao.</div>
-          <span class="support-card-tag">Miễn phí đại lý</span>
-        </div>
-        <div class="support-card">
-          <span class="support-card-icon">🔧</span>
-          <div class="support-card-title">Troubleshooting</div>
-          <div class="support-card-desc">Video xử lý lỗi phổ biến: mã lỗi inverter, vấn đề kết nối pin, cân bằng tải lưới.</div>
-          <span class="support-card-tag">Mới thêm hàng tuần</span>
+        <div class="support-content" id="support-content">
+          <div class="doc-row"><div class="doc-icon"><svg width="10" height="12" fill="none" stroke="#FF8C00" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="doc-name">Datasheet Inverter Deye SUN-12K</div><div class="doc-size">PDF · 2.4 MB</div></div><span class="doc-dl">↓ Tải</span></div>
+          <div class="doc-row"><div class="doc-icon"><svg width="10" height="12" fill="none" stroke="#FF8C00" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="doc-name">Hướng dẫn lắp đặt tấm pin HJT</div><div class="doc-size">PDF · 5.1 MB</div></div><span class="doc-dl">↓ Tải</span></div>
+          <div class="doc-row" style="border:none"><div class="doc-icon"><svg width="10" height="12" fill="none" stroke="#FF8C00" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="doc-name">Chứng nhận IEC/TÜV Rheinland</div><div class="doc-size">PDF · 0.8 MB</div></div><span class="doc-dl">↓ Tải</span></div>
         </div>
       </div>
-    </div>
+      <div class="chips" style="padding: 6px 14px 4px;">
+        <span class="chip chip-orange">Tab content: slide-in from right + fade</span>
+        <span class="chip chip-navy">Line-drawing SVG icon animation (stroke-dashoffset)</span>
+      </div>
 
-    <div class="tab-panel" id="tab-software">
-      <div class="support-grid">
-        <div class="support-card">
-          <span class="support-card-icon">💻</span>
-          <div class="support-card-title">SolarDesign Pro</div>
-          <div class="support-card-desc">Phần mềm thiết kế hệ thống solar mặt trời, xuất bản vẽ kỹ thuật và báo giá tự động.</div>
-          <span class="support-card-tag">Bản quyền đại lý</span>
-        </div>
-        <div class="support-card">
-          <span class="support-card-icon">📊</span>
-          <div class="support-card-title">Portal quản lý đơn hàng</div>
-          <div class="support-card-desc">Theo dõi tồn kho real-time, đặt hàng nhanh, xuất hóa đơn và báo cáo doanh thu.</div>
-          <span class="support-card-tag">24/7</span>
-        </div>
-        <div class="support-card">
-          <span class="support-card-icon">📱</span>
-          <div class="support-card-title">App giám sát hệ thống</div>
-          <div class="support-card-desc">Kết nối toàn bộ hệ thống của khách hàng, cảnh báo sự cố tức thì qua Zalo/SMS.</div>
-          <span class="support-card-tag">iOS & Android</span>
+      <!-- S6: Roadmap -->
+      <div class="mockup-label" style="padding: 6px 14px 4px;">Section 6 — Partner Roadmap (Scroll Steps)</div>
+      <div class="mockup" style="margin:0 10px 0; border-radius:0;">
+        <div class="roadmap">
+          <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:14px;">Trở thành đại lý Mega Power trong 4 bước</div>
+          <div class="roadmap-track">
+            <div class="roadmap-line-bg"></div>
+            <div class="roadmap-line-fill" id="roadmap-fill" style="width:0%"></div>
+            <div class="roadmap-steps" id="roadmap-steps">
+              <div class="step" onclick="activateStep(0)"><div class="step-dot">1</div><div class="step-lbl">Đăng ký thông tin</div></div>
+              <div class="step" onclick="activateStep(1)"><div class="step-dot">2</div><div class="step-lbl">Xét duyệt hồ sơ</div></div>
+              <div class="step" onclick="activateStep(2)"><div class="step-dot">3</div><div class="step-lbl">Ký hợp đồng</div></div>
+              <div class="step" onclick="activateStep(3)"><div class="step-dot">4</div><div class="step-lbl">Nhận hàng & hỗ trợ</div></div>
+            </div>
+          </div>
+          <div id="step-desc" style="margin-top:12px;font-size:11px;color:#5a6a7a;min-height:20px;transition:all .25s;"></div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+      <div class="chips" style="padding: 6px 14px 4px;">
+        <span class="chip chip-orange">SVG path draw animation (stroke-dashoffset)</span>
+        <span class="chip chip-navy">Scroll-triggered step activation</span>
+        <span class="chip chip-green">Glow: box-shadow 0 0 12px rgba(255,140,0,.5)</span>
+      </div>
 
-<!-- ═══ PARTNER ROADMAP ═══ -->
-<section id="roadmap">
-  <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
-    <div class="section-tag">Lộ trình đại lý</div>
-    <h2 class="section-title">Trở thành đối tác<br>Mega Power trong 4 bước</h2>
-    <p class="section-sub">Quy trình minh bạch, nhanh chóng. Từ đăng ký đến nhận hàng đầu tiên trong 3 ngày làm việc.</p>
-  </div>
+      <!-- S7: CTA -->
+      <div class="mockup-label" style="padding: 6px 14px 4px;">Section 7 — CTA Block (Magnetic Button)</div>
+      <div class="mockup" style="margin:0 10px 0; border-radius:0;">
+        <div class="cta-block">
+          <div class="cta-glow"></div>
+          <div class="cta-title">Sẵn sàng mở rộng kinh doanh?</div>
+          <div class="cta-sub">Hơn 1,500 đại lý đã tin tưởng Mega Power.<br>Đăng ký hôm nay — nhận báo giá trong 24h.</div>
+          <button class="cta-mag-btn" id="mag-btn" onmousemove="magnetEffect(event,this)" onmouseleave="resetMagnet(this)">Đăng ký ngay →</button>
+        </div>
+      </div>
+      <div class="chips" style="padding: 6px 14px 4px;">
+        <span class="chip chip-orange">Magnetic: translate on mousemove proximity</span>
+        <span class="chip chip-navy">Gradient glow: radial at corner</span>
+      </div>
 
-  <div class="roadmap-wrap" id="roadmapWrap">
-    <div class="roadmap-line-track">
-      <div class="roadmap-line-fill" id="roadmapLine"></div>
-    </div>
+      <!-- Footer -->
+      <div class="mockup-label" style="padding: 6px 14px 4px;">Footer</div>
+      <div class="mockup" style="margin:0 10px 10px; border-radius:0;">
+        <div class="footer">
+          <div>
+            <div style="font-size:11px;font-weight:700;color:white;margin-bottom:3px;">MEGA POWER</div>
+            <div class="footer-left">© 2025 Mega Power Co., Ltd. · TP.HCM</div>
+          </div>
+          <div class="social-icons">
+            <div class="social-icon">f</div>
+            <div class="social-icon">in</div>
+            <div class="social-icon">yt</div>
+            <div class="social-icon">zt</div>
+          </div>
+        </div>
+      </div>
 
-    <div class="roadmap-step" data-step="0">
-      <div class="step-circle">1</div>
-      <div class="step-title">Đăng ký hồ sơ</div>
-      <div class="step-desc">Điền form online, cung cấp thông tin doanh nghiệp hoặc cá nhân kinh doanh.</div>
-    </div>
-    <div class="roadmap-step" data-step="1">
-      <div class="step-circle">2</div>
-      <div class="step-title">Xét duyệt 24h</div>
-      <div class="step-desc">Đội ngũ kinh doanh liên hệ tư vấn chính sách và xác nhận cấp đại lý.</div>
-    </div>
-    <div class="roadmap-step" data-step="2">
-      <div class="step-circle">3</div>
-      <div class="step-title">Ký hợp đồng</div>
-      <div class="step-desc">Ký kết điện tử, nhận tài khoản portal và bộ tài liệu marketing độc quyền.</div>
-    </div>
-    <div class="roadmap-step" data-step="3">
-      <div class="step-circle">4</div>
-      <div class="step-title">Bắt đầu kinh doanh</div>
-      <div class="step-desc">Đặt đơn đầu tiên, nhận hàng trong 48h, hỗ trợ kỹ thuật trọn đời.</div>
-    </div>
-  </div>
-</section>
+    </div><!-- /panel-0 -->
 
-<!-- ═══ CTA ═══ -->
-<section id="cta">
-  <div class="cta-glow-tl"></div>
-  <div class="cta-glow-br"></div>
-  <div style="position:relative; z-index:2;">
-    <div class="section-tag" style="display:block; text-align:center; margin-bottom:16px;">Sẵn sàng mở rộng kinh doanh?</div>
-    <h2 class="section-title reveal">Tham gia mạng lưới<br>2,000+ đại lý Mega Power</h2>
-    <p class="section-sub reveal">Nhận ngay báo giá sỉ độc quyền và tư vấn miễn phí từ chuyên gia của chúng tôi. Không phí đăng ký, không cam kết tối thiểu.</p>
-    <div class="magnetic-wrapper" id="magneticWrap">
-      <button class="btn-magnetic" id="magneticBtn">Đăng ký ngay — Miễn phí</button>
-    </div>
-    <p class="cta-note">Hoặc gọi hotline: <strong style="color:var(--orange)">1800 6789</strong> · Thứ 2–7, 8:00–17:30</p>
+    <!-- PANEL 1: CSS / Tailwind -->
+    <div class="panel" id="panel-1">
+      <div class="sec-label">Global styles</div>
+      <div class="code-block">
+<span class="c-comment">/* ── Sticky Header ── */</span>
+<span class="c-sel">.header</span> <span class="c-punct">{</span>
+  <span class="c-prop">position</span><span class="c-punct">:</span> <span class="c-val">sticky</span><span class="c-punct">;</span>
+  <span class="c-prop">top</span><span class="c-punct">:</span> <span class="c-num">0</span><span class="c-punct">;</span>
+  <span class="c-prop">z-index</span><span class="c-punct">:</span> <span class="c-num">100</span><span class="c-punct">;</span>
+  <span class="c-prop">background</span><span class="c-punct">:</span> <span class="c-val">transparent</span><span class="c-punct">;</span>
+  <span class="c-prop">transition</span><span class="c-punct">:</span> <span class="c-val">background 0.3s</span><span class="c-punct">;</span>
+<span class="c-punct">}</span>
+<span class="c-sel">.header.scrolled</span> <span class="c-punct">{</span>
+  <span class="c-prop">background</span><span class="c-punct">:</span> <span class="c-val">rgba(0,33,71,0.88)</span><span class="c-punct">;</span>
+  <span class="c-prop">backdrop-filter</span><span class="c-punct">:</span> <span class="c-val">blur(20px)</span><span class="c-punct">;</span>
+  <span class="c-prop">border-bottom</span><span class="c-punct">:</span> <span class="c-val">1px solid rgba(255,140,0,0.2)</span><span class="c-punct">;</span>
+<span class="c-punct">}</span>
 
-    <div class="cta-logos">
-      <div class="partner-logo-pill">DEYE</div>
-      <div class="partner-logo-pill">GROWATT</div>
-      <div class="partner-logo-pill">TRINA SOLAR</div>
-      <div class="partner-logo-pill">JA SOLAR</div>
-      <div class="partner-logo-pill">PYLONTECH</div>
-      <div class="partner-logo-pill">BYD</div>
-    </div>
-  </div>
-</section>
+<span class="c-comment">/* ── Nav underline slide ── */</span>
+<span class="c-sel">.nav-item::after</span> <span class="c-punct">{</span>
+  <span class="c-prop">content</span><span class="c-punct">:</span> <span class="c-val">''</span><span class="c-punct">;</span>
+  <span class="c-prop">position</span><span class="c-punct">:</span> <span class="c-val">absolute</span><span class="c-punct">;</span>
+  <span class="c-prop">bottom</span><span class="c-punct">:</span> <span class="c-val">-2px</span><span class="c-punct">;</span>
+  <span class="c-prop">left</span><span class="c-punct">:</span> <span class="c-num">0</span><span class="c-punct">;</span>
+  <span class="c-prop">width</span><span class="c-punct">:</span> <span class="c-num">0</span><span class="c-punct">;</span>
+  <span class="c-prop">height</span><span class="c-punct">:</span> <span class="c-val">2px</span><span class="c-punct">;</span>
+  <span class="c-prop">background</span><span class="c-punct">:</span> <span class="c-orange">#FF8C00</span><span class="c-punct">;</span>
+  <span class="c-prop">transition</span><span class="c-punct">:</span> <span class="c-val">width 0.25s ease</span><span class="c-punct">;</span>
+<span class="c-punct">}</span>
+<span class="c-sel">.nav-item:hover::after</span> <span class="c-punct">{</span> <span class="c-prop">width</span><span class="c-punct">:</span> <span class="c-val">100%</span><span class="c-punct">; }</span>
 
-<!-- ═══ FOOTER ═══ -->
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <a href="#" class="logo">
-        <div class="logo-icon">M</div>
-        Mega<span>Power</span>
-      </a>
-      <p>Tổng kho phân phối thiết bị điện năng lượng mặt trời B2B hàng đầu Việt Nam. Kho hàng thực tế, giá cạnh tranh, giao hàng nhanh toàn quốc.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Sản phẩm</h4>
-      <ul>
-        <li><a href="#">Inverter Hybrid</a></li>
-        <li><a href="#">Inverter On-Grid</a></li>
-        <li><a href="#">Tấm Pin Mono</a></li>
-        <li><a href="#">Pin Lithium LFP</a></li>
-        <li><a href="#">Phụ kiện solar</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Đại lý</h4>
-      <ul>
-        <li><a href="#">Chính sách đại lý</a></li>
-        <li><a href="#">Đăng ký ngay</a></li>
-        <li><a href="#">Portal đại lý</a></li>
-        <li><a href="#">Chương trình khuyến mãi</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Hỗ trợ</h4>
-      <ul>
-        <li><a href="#">Tài liệu kỹ thuật</a></li>
-        <li><a href="#">Video hướng dẫn</a></li>
-        <li><a href="#">Hotline 1800 6789</a></li>
-        <li><a href="#">Zalo OA</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2025 Mega Power. Tổng kho thiết bị điện mặt trời B2B. Địa chỉ: 123 Đường Năng Lượng, Q.7, TP.HCM</div>
-    <div class="social-links">
-      <a href="#" class="social-btn">f</a>
-      <a href="#" class="social-btn">in</a>
-      <a href="#" class="social-btn">yt</a>
-      <a href="#" class="social-btn">z</a>
-    </div>
-  </div>
-</footer>
+<span class="c-comment">/* ── Border Glow Button ── */</span>
+<span class="c-sel">@keyframes borderGlow</span> <span class="c-punct">{</span>
+  <span class="c-val">0%,100%</span> <span class="c-punct">{</span> <span class="c-prop">box-shadow</span><span class="c-punct">:</span> <span class="c-val">0 0 6px rgba(255,140,0,.3), 0 0 20px rgba(255,140,0,.1)</span><span class="c-punct">; }</span>
+  <span class="c-val">50%</span>      <span class="c-punct">{</span> <span class="c-prop">box-shadow</span><span class="c-punct">:</span> <span class="c-val">0 0 12px rgba(255,140,0,.6), 0 0 40px rgba(255,140,0,.2)</span><span class="c-punct">; }</span>
+<span class="c-punct">}</span>
+
+<span class="c-comment">/* ── Product Card Hover ── */</span>
+<span class="c-sel">.prod-card</span> <span class="c-punct">{</span>
+  <span class="c-prop">transition</span><span class="c-punct">:</span> <span class="c-val">transform .22s, box-shadow .22s</span><span class="c-punct">;</span>
+<span class="c-punct">}</span>
+<span class="c-sel">.prod-card:hover</span> <span class="c-punct">{</span>
+  <span class="c-prop">transform</span><span class="c-punct">:</span> <span class="c-val">translateY(-10px)</span><span class="c-punct">;</span>
+  <span class="c-prop">box-shadow</span><span class="c-punct">:</span> <span class="c-val">0 20px 40px rgba(0,33,71,.18)</span><span class="c-punct">;</span>
+<span class="c-punct">}</span>
+<span class="c-sel">.prod-card:hover .overlay</span> <span class="c-punct">{</span> <span class="c-prop">opacity</span><span class="c-punct">:</span> <span class="c-num">1</span><span class="c-punct">; }</span>
+<span class="c-sel">.prod-card:hover img</span>        <span class="c-punct">{</span> <span class="c-prop">transform</span><span class="c-punct">:</span> <span class="c-val">scale(1.1)</span><span class="c-punct">; }</span>
+
+<span class="c-comment">/* ── Roadmap progress line ── */</span>
+<span class="c-sel">.roadmap-fill</span> <span class="c-punct">{</span>
+  <span class="c-prop">width</span><span class="c-punct">:</span> <span class="c-val">var(--progress, 0%)</span><span class="c-punct">;</span>
+  <span class="c-prop">transition</span><span class="c-punct">:</span> <span class="c-val">width 0.8s cubic-bezier(.4,0,.2,1)</span><span class="c-punct">;</span>
+<span class="c-punct">}</span>
+
+<span class="c-comment">/* ── Magnetic Button JS ── */</span>
+<span class="c-comment">// onmousemove:</span>
+<span class="c-prop">const</span> <span class="c-val">rect</span> <span class="c-punct">=</span> btn.getBoundingClientRect()<span class="c-punct">;</span>
+<span class="c-prop">const</span> <span class="c-val">dx</span>   <span class="c-punct">=</span> e.clientX <span class="c-punct">-</span> (rect.left <span class="c-punct">+</span> rect.width<span class="c-punct">/</span><span class="c-num">2</span>)<span class="c-punct">;</span>
+<span class="c-prop">const</span> <span class="c-val">dy</span>   <span class="c-punct">=</span> e.clientY <span class="c-punct">-</span> (rect.top  <span class="c-punct">+</span> rect.height<span class="c-punct">/</span><span class="c-num">2</span>)<span class="c-punct">;</span>
+btn.style.transform <span class="c-punct">=</span> <span class="c-val">`translate(${dx*.25}px,${dy*.25}px)`</span><span class="c-punct">;</span>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sec-label" style="margin-top:4px;">Tailwind class map</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:var(--gray-50);border-radius:10px;padding:10px;font-size:10px;">
+          <div style="font-weight:600;color:var(--navy);margin-bottom:6px;">Header</div>
+          <div style="font-family:monospace;line-height:1.9;color:#3d4f62;"><span style="color:var(--orange)">sticky top-0 z-50</span><br>bg-[#002147]/90<br>backdrop-blur-xl<br>border-b border-orange-500/20</div>
+        </div>
+        <div style="background:var(--gray-50);border-radius:10px;padding:10px;font-size:10px;">
+          <div style="font-weight:600;color:var(--navy);margin-bottom:6px;">Hero</div>
+          <div style="font-family:monospace;line-height:1.9;color:#3d4f62;"><span style="color:var(--orange)">grid grid-cols-2 gap-8</span><br>bg-[#002147]<br>min-h-[85vh]<br>items-center px-16</div>
+        </div>
+        <div style="background:var(--gray-50);border-radius:10px;padding:10px;font-size:10px;">
+          <div style="font-weight:600;color:var(--navy);margin-bottom:6px;">Product Card</div>
+          <div style="font-family:monospace;line-height:1.9;color:#3d4f62;"><span style="color:var(--orange)">group relative overflow-hidden</span><br>rounded-2xl border<br>hover:-translate-y-2.5<br>hover:shadow-2xl transition-all</div>
+        </div>
+        <div style="background:var(--gray-50);border-radius:10px;padding:10px;font-size:10px;">
+          <div style="font-weight:600;color:var(--navy);margin-bottom:6px;">Counter</div>
+          <div style="font-family:monospace;line-height:1.9;color:#3d4f62;"><span style="color:var(--orange)">grid grid-cols-4 gap-6</span><br>bg-[#002147]<br>py-16 px-8<br>text-center</div>
+        </div>
+      </div>
+    </div><!-- /panel-1 -->
+
+    <!-- PANEL 2: ANIMATIONS -->
+    <div class="panel" id="panel-2">
+      <div class="sec-label">Animation blueprint</div>
+      <div class="anim-row">
+        <div class="anim-icon"><svg width="10" height="10" fill="#FF8C00" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div>
+        <div><div class="anim-title">Hero Text Reveal <span class="lib-badge lb-gsap">GSAP</span></div><div class="anim-detail">SplitText chia từng ký tự. Mỗi char: <code>y:60, opacity:0 → y:0, opacity:1</code>, stagger: 0.03s, ease: power3.out. Headline trước, sub-copy sau 0.4s.</div></div>
+      </div>
+      <div class="anim-row">
+        <div class="anim-icon"><svg width="10" height="10" fill="none" stroke="#FF8C00" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg></div>
+        <div><div class="anim-title">Parallax Hero Image <span class="lib-badge lb-gsap">GSAP ScrollTrigger</span></div><div class="anim-detail">Hero image: <code>yPercent: -15</code> trên scrub:1. Product cards nền: <code>yPercent: -8</code> tốc độ chậm hơn. Dùng <code>will-change: transform</code>.</div></div>
+      </div>
+      <div class="anim-row">
+        <div class="anim-icon"><svg width="10" height="10" fill="#FF8C00" viewBox="0 0 24 24"><path d="M12 22V12M5 19l7-7 7 7M5 12l7-7 7 7"/></svg></div>
+        <div><div class="anim-title">Counter Count-Up <span class="lib-badge lb-gsap">GSAP + Observer</span></div><div class="anim-detail">IntersectionObserver: once:true. GSAP: <code>{val:0} → {val:1500, duration:2, ease:"power1.out", onUpdate}</code>. Icon pop: <code>scale(0,0.8) → scale(1)</code> với stagger 0.15s.</div></div>
+      </div>
+      <div class="anim-row">
+        <div class="anim-icon"><svg width="10" height="10" fill="none" stroke="#FF8C00" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <div><div class="anim-title">Tab Slide-in <span class="lib-badge lb-css">CSS</span></div><div class="anim-detail">Outgoing: <code>opacity:1 → 0, translateX(0 → -20px)</code>. Incoming: <code>opacity:0 → 1, translateX(30px → 0)</code>. Duration: 0.28s, ease: ease-out. Class toggle.</div></div>
+      </div>
+      <div class="anim-row">
+        <div class="anim-icon"><svg width="10" height="10" fill="none" stroke="#FF8C00" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div><div class="anim-title">Roadmap Line Draw <span class="lib-badge lb-gsap">GSAP ScrollTrigger</span></div><div class="anim-detail">SVG path với <code>stroke-dasharray: totalLength</code>. ScrollTrigger scrub:true animates <code>strokeDashoffset: length → 0</code>. Mỗi step khi vào viewport: <code>box-shadow: 0 0 14px #FF8C00</code>.</div></div>
+      </div>
+      <div class="anim-row">
+        <div class="anim-icon"><svg width="10" height="10" fill="#FF8C00" viewBox="0 0 24 24"><path d="M12 2a7 7 0 100 14 7 7 0 000-14zM12 22a2 2 0 100-4 2 2 0 000 4z"/></svg></div>
+        <div><div class="anim-title">Magnetic Button <span class="lib-badge lb-css">Vanilla JS</span></div><div class="anim-detail">Detect khoảng cách cursor → center btn. Nếu &lt; 100px: <code>translate(dx×0.3, dy×0.3)</code>, transition 0.15s. onMouseLeave: reset về 0,0. Ease: spring.</div></div>
+      </div>
+      <div class="anim-row" style="border:none">
+        <div class="anim-icon"><svg width="10" height="10" fill="none" stroke="#FF8C00" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2v10l5 5"/></svg></div>
+        <div><div class="anim-title">Social Icon Spin <span class="lib-badge lb-css">CSS</span></div><div class="anim-detail"><code>.social-icon:hover { transform: rotate(360deg); transition: transform 0.5s cubic-bezier(.4,0,.2,1); color: #FF8C00; }</code>. Duration 0.5s đủ nhanh, không chóng mặt.</div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="sec-label">Library stack</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px;">
+        <div style="background:#1a1a2e;border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-size:12px;font-weight:700;color:#88ce02;margin-bottom:4px;">GSAP 3</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);line-height:1.6;">ScrollTrigger<br>SplitText<br>CountTo / Ticker</div>
+        </div>
+        <div style="background:#1a1a2e;border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-size:12px;font-weight:700;color:#264de4;margin-bottom:4px;">CSS Native</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);line-height:1.6;">@keyframes<br>transition<br>backdrop-filter</div>
+        </div>
+        <div style="background:#1a1a2e;border-radius:10px;padding:10px;text-align:center;">
+          <div style="font-size:12px;font-weight:700;color:#6c63ff;margin-bottom:4px;">AOS / Framer</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);line-height:1.6;">Fallback reveal<br>Framer Motion<br>(nếu dùng React)</div>
+        </div>
+      </div>
+    </div><!-- /panel-2 -->
+
+    <!-- PANEL 3: RESPONSIVE -->
+    <div class="panel" id="panel-3">
+      <div class="sec-label">Breakpoint strategy</div>
+      <div class="resp-grid" style="margin-bottom:12px;">
+        <div class="resp-card">
+          <div class="resp-device">📱</div>
+          <div class="resp-name">Mobile</div>
+          <div class="resp-bp">< 768px</div>
+          <div class="resp-features">
+            · Hero: 1 cột, text trên<br>
+            · Nav: Hamburger → drawer<br>
+            · Counters: 2×2 grid<br>
+            · Products: 1 cột scroll<br>
+            · Roadmap: vertical<br>
+            · Swipe gesture tabs
+          </div>
+        </div>
+        <div class="resp-card">
+          <div class="resp-device">💻</div>
+          <div class="resp-name">Tablet</div>
+          <div class="resp-bp">768–1024px</div>
+          <div class="resp-features">
+            · Hero: 2 cột compact<br>
+            · Nav: full width<br>
+            · Counters: 4 cột<br>
+            · Products: 2 cột<br>
+            · Roadmap: horizontal<br>
+            · Support: tab + icon
+          </div>
+        </div>
+        <div class="resp-card">
+          <div class="resp-device">🖥️</div>
+          <div class="resp-name">Desktop</div>
+          <div class="resp-bp">> 1024px</div>
+          <div class="resp-features">
+            · Hero: 2 cột full<br>
+            · Nav: full + mega hint<br>
+            · Counters: 4 cột lớn<br>
+            · Products: 3 cột<br>
+            · Roadmap: full motion<br>
+            · Magnetic button active
+          </div>
+        </div>
+      </div>
+      <div class="sec-label">Mobile-specific UX</div>
+      <div class="sec-body">
+        Tabs (S5) dùng <strong style="color:var(--navy)">touch swipe</strong> trái/phải với <code>HammerJS</code> hoặc <code>pointer events</code> native. Product grid dùng <strong style="color:var(--navy)">horizontal scroll snap</strong> thay hover (tap để toggle overlay). Roadmap collapse về dạng accordion. Magnetic button disabled trên touch devices.
+      </div>
+      <div class="code-block" style="font-size:10px;">
+<span class="c-comment">/* Mobile-first Tailwind classes */</span>
+<span class="c-comment">/* Hero grid */</span>
+<span class="c-sel">grid-cols-1</span>  <span class="c-comment">/* mobile */</span>
+<span class="c-sel">md:grid-cols-2</span> <span class="c-comment">/* tablet+ */</span>
+
+<span class="c-comment">/* Product grid */</span>
+<span class="c-sel">grid-cols-1 sm:grid-cols-2 lg:grid-cols-3</span>
+
+<span class="c-comment">/* Counter */</span>
+<span class="c-sel">grid-cols-2 md:grid-cols-4</span>
+
+<span class="c-comment">/* Disable magnetic on touch */</span>
+<span class="c-prop">@media</span> (hover<span class="c-punct">:</span> none) <span class="c-punct">{</span>
+  <span class="c-sel">.magnetic-btn</span> <span class="c-punct">{</span> <span class="c-prop">transform</span><span class="c-punct">:</span> <span class="c-val">none !important</span><span class="c-punct">;</span> <span class="c-punct">}</span>
+<span class="c-punct">}</span>
+      </div>
+    </div><!-- /panel-3 -->
+
+  </div><!-- /main card -->
+
+</div>
 
 <script>
-// ── HERO TEXT REVEAL ──
-(function(){
-  const words = ['Tổng', 'kho', 'điện', 'mặt', 'trời', '<span class="accent">uy', 'tín', 'nhất</span>'];
-  const headline = ['Tổng kho', 'thiết bị', 'điện mặt trời', '<span class="accent">B2B #1</span>', 'Việt Nam'];
-  const el = document.getElementById('heroHeadline');
-  headline.forEach((w, i) => {
-    const span = document.createElement('div');
-    span.innerHTML = `<span class="word" style="animation-delay:${0.3 + i * 0.12}s">${w}</span>`;
-    el.appendChild(span);
-  });
-})();
-
-// ── STICKY HEADER ──
-window.addEventListener('scroll', () => {
-  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
-});
-
-// ── INTERSECTION OBSERVER (REVEAL + COUNTER + ROADMAP) ──
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const el = entry.target;
-
-    if (el.classList.contains('reveal')) {
-      el.classList.add('visible');
-      io.unobserve(el);
-    }
-    if (el.id === 'trust') {
-      triggerCounters();
-      io.unobserve(el);
-    }
-    if (el.id === 'roadmapWrap') {
-      triggerRoadmap();
-      io.unobserve(el);
-    }
-  });
-}, { threshold: 0.2 });
-
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-io.observe(document.getElementById('trust'));
-io.observe(document.getElementById('roadmapWrap'));
-
-// ── COUNTER ANIMATION ──
-function triggerCounters() {
-  document.querySelectorAll('.trust-icon').forEach((icon, i) => {
-    const delay = parseInt(icon.dataset.delay || 0);
-    setTimeout(() => icon.classList.add('popped'), delay);
-  });
-  document.querySelectorAll('.trust-number').forEach(el => {
-    const target = parseInt(el.dataset.target);
-    const suffix = el.dataset.suffix || '';
-    const duration = 2000;
-    const start = performance.now();
-    function update(now) {
-      const t = Math.min((now - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - t, 3);
-      const val = Math.round(ease * target);
-      el.textContent = val.toLocaleString('vi-VN') + suffix;
-      if (t < 1) requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update);
-  });
+function switchTab(idx) {
+  document.querySelectorAll('.tabs .tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.querySelectorAll('.panel').forEach((p,i) => p.classList.toggle('active', i===idx));
 }
 
-// ── ROADMAP SCROLL ANIMATION ──
-function triggerRoadmap() {
-  const steps = document.querySelectorAll('.roadmap-step');
-  const line = document.getElementById('roadmapLine');
-  const total = steps.length;
-  steps.forEach((step, i) => {
-    setTimeout(() => {
-      step.classList.add('lit');
-      const pct = i === 0 ? 0 : Math.round((i / (total - 1)) * 100);
-      line.style.width = pct + '%';
-    }, i * 500);
-  });
-  // final
-  setTimeout(() => { line.style.width = '100%'; }, (total - 1) * 500);
+var supportData = [
+  ['📄 Datasheet Inverter Deye SUN-12K','PDF · 2.4 MB','📄 Hướng dẫn lắp đặt tấm pin HJT','PDF · 5.1 MB','📄 Chứng nhận IEC/TÜV Rheinland','PDF · 0.8 MB'],
+  ['🎬 Hướng dẫn cài đặt Inverter Hybrid','YouTube · 18 phút','🎬 Lắp pin Lithium 48V thực tế','YouTube · 22 phút','🎬 Tổng quan giải pháp off-grid','YouTube · 12 phút'],
+  ['💾 SolarInfo 8.0 (Monitoring)','Win/Mac · 45 MB','💾 SolarmanBiz App','iOS/Android','💾 PV*SOL Premium 2024','Thiết kế hệ thống']
+];
+function switchSupportTab(el, idx) {
+  document.querySelectorAll('.stab').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  var c = document.getElementById('support-content');
+  c.style.opacity = '0';
+  c.style.transform = 'translateX(16px)';
+  setTimeout(function(){
+    var d = supportData[idx], html = '';
+    for(var i=0;i<3;i++) {
+      html += '<div class="doc-row"' + (i===2?' style="border:none"':'') + '>' +
+        '<div class="doc-icon" style="font-size:10px">' + d[i*2][0] + '</div>' +
+        '<div><div class="doc-name">' + d[i*2].slice(2) + '</div>' +
+        '<div class="doc-size">' + d[i*2+1] + '</div></div>' +
+        '<span class="doc-dl">↓ Tải</span></div>';
+    }
+    c.innerHTML = html;
+    c.style.transition = 'opacity .25s, transform .25s';
+    c.style.opacity = '1';
+    c.style.transform = 'translateX(0)';
+  }, 180);
 }
 
-// ── TABS ──
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tab = btn.dataset.tab;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+var stepDescs = [
+  '📝 Điền form đăng ký online — chỉ mất 3 phút.',
+  '🔍 Đội ngũ Mega Power xét duyệt trong 24–48h làm việc.',
+  '✍️ Ký hợp đồng đại lý chính thức với bảng giá ưu đãi.',
+  '🚚 Nhận hàng toàn quốc + hỗ trợ kỹ thuật trọn đời.'
+];
+function activateStep(idx) {
+  var steps = document.querySelectorAll('#roadmap-steps .step');
+  var percents = [0, 33, 66, 100];
+  steps.forEach(function(s, i) { s.classList.toggle('active', i <= idx); });
+  document.getElementById('roadmap-fill').style.width = percents[idx] + '%';
+  document.getElementById('step-desc').textContent = stepDescs[idx];
+}
+activateStep(0);
 
-    const panels = document.querySelectorAll('.tab-panel');
-    panels.forEach(p => {
-      p.style.transform = 'translateX(-40px)';
-      p.style.opacity = '0';
-      p.classList.remove('active');
-    });
-    const target = document.getElementById('tab-' + tab);
-    setTimeout(() => {
-      target.classList.add('active');
-      target.style.transform = 'translateX(40px)';
-      target.style.opacity = '0';
-      requestAnimationFrame(() => {
-        target.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-        target.style.transform = 'translateX(0)';
-        target.style.opacity = '1';
-      });
-    }, 200);
-  });
-});
-
-// ── MAGNETIC BUTTON ──
-const wrap = document.getElementById('magneticWrap');
-const btn = document.getElementById('magneticBtn');
-wrap.addEventListener('mousemove', e => {
-  const r = wrap.getBoundingClientRect();
-  const cx = r.left + r.width / 2;
-  const cy = r.top + r.height / 2;
-  const dx = (e.clientX - cx) * 0.3;
-  const dy = (e.clientY - cy) * 0.3;
-  btn.style.transform = `translate(${dx}px, ${dy}px)`;
-});
-wrap.addEventListener('mouseleave', () => {
-  btn.style.transform = 'translate(0,0)';
-  btn.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
-});
-wrap.addEventListener('mouseenter', () => { btn.style.transition = 'transform 0.1s ease'; });
-
-// ── PARALLAX HERO ──
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  const heroVisual = document.querySelector('.hero-visual');
-  if (heroVisual) heroVisual.style.transform = `translateY(${y * 0.15}px)`;
-  const heroBadge = document.querySelector('.hero-badge');
-  if (heroBadge) heroBadge.style.transform = `translateY(${y * 0.05}px)`;
-});
+function magnetEffect(e, btn) {
+  var r = btn.getBoundingClientRect();
+  var dx = e.clientX - (r.left + r.width/2);
+  var dy = e.clientY - (r.top + r.height/2);
+  btn.style.transform = 'translate(' + dx*0.28 + 'px,' + dy*0.28 + 'px) scale(1.04)';
+  btn.style.boxShadow = '0 8px 24px rgba(255,140,0,.45)';
+}
+function resetMagnet(btn) {
+  btn.style.transform = '';
+  btn.style.boxShadow = '';
+}
 </script>
-</body>
-</html>
