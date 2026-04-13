@@ -218,6 +218,67 @@ footer{background:var(--navy);color:#fff;padding:60px 5% 20px;border-top:1px sol
   .hero-btns{flex-direction:column}
   .btn-shine,.btn-outline{text-align:center;justify-content:center}
 }
+/* STYLES CHO CÁC SECTION MỚI */
+.new-section { padding: 80px 5%; background: #fff; }
+.bg-light { background: var(--gray-100); }
+
+/* Giải pháp năng lượng */
+.solution-grid {
+  max-width: 1280px; margin: 40px auto 0;
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center;
+}
+.solution-images {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+}
+.sol-img {
+  width: 100%; border-radius: 12px; object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.sol-img-large { grid-row: span 2; height: 100%; }
+.sol-item { display: flex; gap: 20px; margin-bottom: 30px; }
+.sol-icon { 
+  font-size: 32px; width: 64px; height: 64px; flex-shrink: 0;
+  background: var(--gray-100); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Quy trình lắp đặt */
+.process-grid {
+  max-width: 1280px; margin: 40px auto 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+}
+.process-card {
+  background: #fff; padding: 40px 30px; border-radius: var(--radius);
+  border: 1px solid var(--gray-200); text-align: center; transition: all 0.3s;
+}
+.process-card:hover { border-color: var(--orange); transform: translateY(-5px); }
+.proc-icon { font-size: 40px; margin-bottom: 20px; display: block; }
+.proc-step { 
+  display: inline-block; color: var(--orange); font-weight: 800; 
+  font-size: 14px; margin-bottom: 10px; text-transform: uppercase;
+}
+
+/* Review & Tin tức */
+.review-grid, .news-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; max-width: 1280px; margin: 0 auto;
+}
+.review-card {
+  background: var(--gray-100); padding: 30px; border-radius: var(--radius); position: relative;
+}
+.review-card::after {
+  content: '"'; position: absolute; top: 20px; right: 30px; 
+  font-size: 60px; color: var(--orange); opacity: 0.2; font-family: serif;
+}
+.news-card {
+  border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gray-200);
+}
+.news-img { height: 200px; background: #ddd; width: 100%; }
+.news-body { padding: 20px; }
+
+@media(max-width: 768px) {
+  .solution-grid, .process-grid, .review-grid, .news-grid { grid-template-columns: 1fr; }
+  .solution-images { order: 2; }
+}
 </style>
 </head>
 <body>
@@ -302,7 +363,175 @@ footer{background:var(--navy);color:#fff;padding:60px 5% 20px;border-top:1px sol
     </div>
   </div>
 </section>
+<section class="new-section">
+  <div class="solution-grid">
+    <div class="solution-images">
+      <div class="sol-img sol-img-large" style="background: #eee url('https://via.placeholder.com/400x600') center/cover"></div>
+      <div class="sol-img" style="background: #eee url('https://via.placeholder.com/400x300') center/cover; height: 200px"></div>
+      <div class="sol-img" style="background: #eee url('https://via.placeholder.com/400x300') center/cover; height: 200px"></div>
+    </div>
+    <div>
+      <div class="section-tag">Hệ sinh thái Mega Power</div>
+      <h2 class="section-title">Giải Pháp Năng Lượng Xanh</h2>
+      <p style="color: var(--text-body); margin-bottom: 30px;">Với điện mặt trời mái nhà, khách hàng chỉ cần đầu tư một lần tại Mega Power là có thể sử dụng bền bỉ trong 30 năm.</p>
+      
+      <div class="sol-item">
+        <div class="sol-icon">🏭</div>
+        <div>
+          <h4 style="margin-bottom: 5px;">Điện Cho Sản Xuất</h4>
+          <p style="font-size: 14px; color: var(--text-body);">Giải bài toán năng lượng cho nhà máy, trang trại và doanh nghiệp với hiệu suất cao nhất.</p>
+        </div>
+      </div>
+      <div class="sol-item">
+        <div class="sol-icon">🏠</div>
+        <div>
+          <h4 style="margin-bottom: 5px;">Điện Cho Gia Đình</h4>
+          <p style="font-size: 14px; color: var(--text-body);">Hệ thống lưu trữ Lithium thông minh, giúp gia đình bạn tự chủ nguồn điện 24/7.</p>
+        </div>
+      </div>
+      <div class="sol-item">
+        <div class="sol-icon">⚙️</div>
+        <div>
+          <h4 style="margin-bottom: 5px;">Thiết Bị Chính Hãng</h4>
+          <p style="font-size: 14px; color: var(--text-body);">Phân phối trực tiếp từ Growatt, Huawei, Deye và Canadian Solar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<section class="new-section bg-light">
+  <div style="text-align: center; margin-bottom: 40px;">
+    <div class="section-tag">Tiêu chuẩn kỹ thuật</div>
+    <h2 class="section-title">Quy Trình Lắp Đặt Chuyên Nghiệp</h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-card">
+      <span class="proc-icon">🔍</span>
+      <span class="proc-step">Bước 1</span>
+      <h4>Khảo Sát Thực Tế</h4>
+      <p style="font-size: 13px; color: var(--text-body); margin-top: 10px;">Đánh giá kết cấu mái, vị trí lắp đặt và tính toán hướng nắng tối ưu.</p>
+    </div>
+    <div class="process-card">
+      <span class="proc-icon">📐</span>
+      <span class="proc-step">Bước 2</span>
+      <h4>Thiết Kế Bản Vẽ</h4>
+      <p style="font-size: 13px; color: var(--text-body); margin-top: 10px;">Lập hồ sơ kỹ thuật 3D, sơ đồ đấu nối và bóc tách vật tư chi tiết.</p>
+    </div>
+    <div class="process-card">
+      <span class="proc-icon">🏗️</span>
+      <span class="proc-step">Bước 3</span>
+      <h4>Thi công lắp đặt</h4>
+      <p style="font-size: 13px; color: var(--text-body); margin-top: 10px;">Đội ngũ kỹ sư Mega Power triển khai lắp đặt an toàn, thẩm mỹ.</p>
+    </div>
+    <div class="process-card">
+      <span class="proc-icon">⚡</span>
+      <span class="proc-step">Bước 4</span>
+      <h4>Vận Hành Thử</h4>
+      <p style="font-size: 13px; color: var(--text-body); margin-top: 10px;">Kiểm tra hiệu suất toàn hệ thống và thiết lập ứng dụng giám sát từ xa.</p>
+    </div>
+    <div class="process-card">
+      <span class="proc-icon">🤝</span>
+      <span class="proc-step">Bước 5</span>
+      <h4>Nghiệm Thu</h4>
+      <p style="font-size: 13px; color: var(--text-body); margin-top: 10px;">Bàn giao hồ sơ bảo hành và hướng dẫn vận hành cho khách hàng.</p>
+    </div>
+    <div class="process-card">
+      <span class="proc-icon">🛠️</span>
+      <span class="proc-step">Bước 6</span>
+      <h4>Bảo Trì Trọn Đời</h4>
+      <p style="font-size: 13px; color: var(--text-body); margin-top: 10px;">Kiểm tra định kỳ 6 tháng/lần đảm bảo hệ thống luôn đạt đỉnh hiệu suất.</p>
+    </div>
+  </div>
+</section>
+
+<section class="new-section">
+  <div class="solution-grid" style="grid-template-columns: 1.2fr 1fr;">
+    <div>
+      <div class="section-tag">Lợi ích khách hàng</div>
+      <h2 class="section-title">Gia Tăng Hiệu Quả Kinh Tế</h2>
+      <div class="sol-item">
+        <div class="wh-num" style="color: var(--orange); font-size: 32px; width: 50px;">01</div>
+        <div>
+          <h4>Tiết kiệm chi phí điện</h4>
+          <p style="font-size: 14px; color: var(--text-body);">Thu hồi vốn nhanh chỉ trong 4-5 năm đầu. Sử dụng điện miễn phí 25 năm tiếp theo.</p>
+        </div>
+      </div>
+      <div class="sol-item">
+        <div class="wh-num" style="color: var(--orange); font-size: 32px; width: 50px;">02</div>
+        <div>
+          <h4>Không tốn chi phí vận hành</h4>
+          <p style="font-size: 14px; color: var(--text-body);">Hệ thống vận hành tự động hoàn toàn, chi phí bảo trì cực thấp.</p>
+        </div>
+      </div>
+      <div class="sol-item">
+        <div class="wh-num" style="color: var(--orange); font-size: 32px; width: 50px;">03</div>
+        <div>
+          <h4>Thân thiện môi trường</h4>
+          <p style="font-size: 14px; color: var(--text-body);">Giảm phát thải CO2, kiến tạo tương lai xanh bền vững cho cộng đồng.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sol-img" style="background: #eee url('https://via.placeholder.com/600x400') center/cover; height: 400px; border-radius: 20px;"></div>
+  </div>
+</section>
+
+<section class="new-section bg-light">
+  <div style="text-align: center; margin-bottom: 40px;">
+    <div class="section-tag">Testimonials</div>
+    <h2 class="section-title">Khách Hàng Đánh Giá</h2>
+  </div>
+  <div class="review-grid">
+    <div class="review-card">
+      <p style="font-style: italic; margin-bottom: 20px;">"Tôi chọn Mega Power vì đội ngũ kỹ thuật rất am hiểu và nhiệt tình. Hệ thống 10kW nhà tôi chạy rất ổn định."</p>
+      <h4 style="color: var(--navy);">Ông Hoàng Gia Nhi</h4>
+      <span style="font-size: 12px; color: var(--orange);">Chủ đầu tư - Hòa Bình</span>
+    </div>
+    <div class="review-card">
+      <p style="font-style: italic; margin-bottom: 20px;">"Dịch vụ EPC của Mega Power rất chuyên nghiệp. Việc khảo sát và lắp đặt diễn ra nhanh chóng, không ảnh hưởng sản xuất."</p>
+      <h4 style="color: var(--navy);">Ông Nguyễn Đức Trọng</h4>
+      <span style="font-size: 12px; color: var(--orange);">Giám đốc Solar Đại Dương</span>
+    </div>
+    <div class="review-card">
+      <p style="font-style: italic; margin-bottom: 20px;">"Giá sỉ cạnh tranh và hàng luôn có sẵn trong kho là điều tôi thích nhất khi làm đại lý cho Mega Power."</p>
+      <h4 style="color: var(--navy);">Ông Trần Anh Tuấn</h4>
+      <span style="font-size: 12px; color: var(--orange);">Giám đốc Công nghệ Đức Trí</span>
+    </div>
+  </div>
+</section>
+
+<section class="new-section">
+  <div style="text-align: center; margin-bottom: 40px;">
+    <div class="section-tag">Blog & News</div>
+    <h2 class="section-title">Tin Tức Mới Nhất</h2>
+  </div>
+  <div class="news-grid">
+    <div class="news-card">
+      <div class="news-img" style="background: url('https://via.placeholder.com/400x200') center/cover;"></div>
+      <div class="news-body">
+        <span style="font-size: 11px; color: var(--gray-500);">13/04/2026 • 246 lượt xem</span>
+        <h4 style="margin: 10px 0;">Mega Power hỗ trợ 500.000đ/lần xử lý lỗi tại dự án</h4>
+        <a href="#" style="color: var(--orange); font-weight: 600; font-size: 13px; text-decoration: none;">Đọc thêm →</a>
+      </div>
+    </div>
+    <div class="news-card">
+      <div class="news-img" style="background: url('https://via.placeholder.com/400x200') center/cover;"></div>
+      <div class="news-body">
+        <span style="font-size: 11px; color: var(--gray-500);">10/04/2026 • 673 lượt xem</span>
+        <h4 style="margin: 10px 0;">EVN thông báo giá mua điện mặt trời mái nhà năm 2026</h4>
+        <a href="#" style="color: var(--orange); font-weight: 600; font-size: 13px; text-decoration: none;">Đọc thêm →</a>
+      </div>
+    </div>
+    <div class="news-card">
+      <div class="news-img" style="background: url('https://via.placeholder.com/400x200') center/cover;"></div>
+      <div class="news-body">
+        <span style="font-size: 11px; color: var(--gray-500);">05/04/2026 • 894 lượt xem</span>
+        <h4 style="margin: 10px 0;">Đào tạo kỹ thuật chuyên sâu biến tần Auxsol tại văn phòng</h4>
+        <a href="#" style="color: var(--orange); font-weight: 600; font-size: 13px; text-decoration: none;">Đọc thêm →</a>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- TRUST -->
 <section class="trust" id="trustSection">
   <div class="trust-inner">
